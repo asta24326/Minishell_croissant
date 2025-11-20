@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/19 16:23:11 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/20 12:02:44 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 // for printf, readline
 # include <stdio.h>
 
-// for malloc, free
+// for malloc, free, getenv
 # include <stdlib.h>
 
 // for access, getcwd, chdir, unlink, execve,
-// dup, dup2, pipe
+// dup, dup2, pipe, isatty, ttyname, ttyslot
 # include <unistd.h>
 
 // for write, open, read, close, unlink
@@ -49,7 +49,22 @@
 // for stat, lstat, fstat
 # include <sys/stat.h>
 
-// for opendir
+// for opendir, readdir, closedir
 # include <dirent.h>
+
+// for strerror
+# include <string.h>
+
+// for ioctl
+# include <sys/ioctl.h>
+
+// for tcsetattr, tcgetattr
+# include <termios.h>
+
+// for tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+# include <curses.h>
+
+// for tputs
+# include <term.h>
 
 #endif
