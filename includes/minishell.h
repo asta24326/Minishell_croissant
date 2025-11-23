@@ -6,12 +6,18 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/23 20:31:01 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/23 20:35:08 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+/* LIBRARIES */
+
+# include "../libraries/libft/libft.h"
+
+/* HEADERS */
 
 // for readline and all rl_* functions:
 # include <readline/readline.h>
@@ -66,6 +72,12 @@
 
 // for tputs
 # include <term.h>
+
+// for boolean expressions
+# include <stdbool.h>
+
+
+/* STRUCTURES */
 
 typedef struct	s_cmd
 {
