@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/20 12:02:44 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/23 15:55:31 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 // for readline and all rl_* functions:
 # include <readline/readline.h>
@@ -66,5 +66,16 @@
 
 // for tputs
 # include <term.h>
+
+typedef struct c_node
+{
+	char 		*cmd;
+	char		*in_redir;
+	char		*out_redir;
+	char		**cmd_args;
+	char		*here_doc_delim;
+	struct c_node	*next;
+} cmd_node;
+
 
 #endif
