@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/23 17:06:49 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/23 18:18:33 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,15 @@ typedef struct s_cmd
 	char			**cmd_args;
 	char			*heredoc_delim;
 	struct s_cmd	*next;
-} t_cmd_node;
+}	t_cmd_node;
 
-/* Execution structures */
+/* main data storage */
+typedef struct s_data
+{
+	int			cmds_count;
+	int			*pipes_fds;
+	int			*files_fds;
+	t_cmd_node	*init_cmd;
+}	t_data;
 
 #endif

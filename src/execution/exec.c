@@ -6,14 +6,14 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:15:52 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/23 17:05:49 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/23 17:55:46 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // check input
-void	ft_heck_exec_input(t_cmd_node *cmd)
+void	ft_check_exec_input(t_cmd_node *cmd)
 {
 	t_cmd_node	*temp;
 	
