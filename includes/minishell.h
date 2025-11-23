@@ -6,12 +6,17 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/23 20:35:08 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/23 23:36:02 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+/* MACROS */
+
+# define SUCCESS 0
+# define FAILURE 1
 
 /* LIBRARIES */
 
@@ -90,7 +95,7 @@ typedef struct	s_cmd
 /* outfile data */
 	char	*outfile;
 	int		outfile_fd;
-	bool	append;
+	bool	append; // yes or no
 /* heredoc data */
 	char	*heredoc_delim;
 	int		heredoc_fd;
