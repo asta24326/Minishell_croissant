@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/23 15:55:31 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/23 15:59:21 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@
 // for tputs
 # include <term.h>
 
-typedef struct c_node
+typedef struct s_cmd
 {
 	char 		*cmd;
 	char		*in_redir;
 	char		*out_redir;
 	char		**cmd_args;
 	char		*here_doc_delim;
-	struct c_node	*next;
-} cmd_node;
+	struct s_cmd	*next;
+} t_cmd_node;
 
 
 #endif
