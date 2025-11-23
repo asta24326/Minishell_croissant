@@ -1,14 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
+/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/23 16:15:52 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/23 16:18:12 by aidarsharaf      ###   ########.fr       */
+/*   Created: 2025/06/05 10:34:22 by asharafe          #+#    #+#             */
+/*   Updated: 2025/09/20 21:26:15 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
+/*
+#include <unistd.h>
+#include <stdio.h>
 
+int	ft_isascii(int c);
+
+int	main(void)
+{
+		printf("%d\n", ft_isascii(-255));
+		return (0);
+}
+*/
+
+int	ft_isascii(int c)
+{
+	return (c >= 0 && c <= 127);
+}

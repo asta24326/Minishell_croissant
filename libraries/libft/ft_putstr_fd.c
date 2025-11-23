@@ -1,14 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
+/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/23 16:15:52 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/23 16:18:12 by aidarsharaf      ###   ########.fr       */
+/*   Created: 2025/06/19 11:51:16 by asharafe          #+#    #+#             */
+/*   Updated: 2025/09/20 21:26:49 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
+}
