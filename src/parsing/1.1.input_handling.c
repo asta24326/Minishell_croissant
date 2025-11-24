@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_handling.c                                   :+:      :+:    :+:   */
+/*   1.1.input_handling.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:52:45 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/24 15:45:42 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:58:42 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <minishell.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "../../includes/minishell.h"
 
 // ---------------  libft functions - need to go out!  --------------
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
@@ -111,17 +106,20 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 }
 // ---------------  libft functions - end!  --------------
 
-
+// works
+// returns the ID of the corresponding computer for the shell prompt (e.g. c4b10c4)
 char	*get_pc_id(void)
 {
 	char	*session;
 	char	*pc_id;
 
 	session = getenv("SESSION_MANAGER");
-	pc_id = ft_substr(session, 6, 7);		//attention: hard-coded
+	pc_id = ft_substr(session, 6, 7);		//attention: hard-coded, to be tested
 	return (pc_id);
 }
 
+// works
+// returns the entire prompt for the shell to ask for user input (e.g. kschmitt@c4b10c4:~$ )
 const char	*get_prompt(void)
 {
 	char		*user;
@@ -130,12 +128,15 @@ const char	*get_prompt(void)
 
 	user = getenv("USER");
 	pc_id = get_pc_id();
-	prompt = ft_strjoin(user, "@");
-	prompt = ft_strjoin(prompt, pc_id);
-	prompt = ft_strjoin(prompt, ":~$ ");
+	prompt = ft_strjoin(user, "@");			//attention: memory allocation
+	prompt = ft_strjoin(prompt, pc_id);		//attention: memory allocation
+	prompt = ft_strjoin(prompt, ":~$ ");	//attention: memory allocation
 	return (prompt);
 }
 
+// works
+// sets the prompt, reads the user input and saves it into a char *buffer
+// creates and continously adds to history if input is non-empty
 char	*get_user_input(char *prompt)
 {
 	if (prompt)
@@ -150,7 +151,7 @@ char	*get_user_input(char *prompt)
 	return (prompt);
 }
 
-// input handling
+// input handling - for testing
 int	main(void)
 {
 	static char	*prompt;
@@ -160,7 +161,7 @@ int	main(void)
 	{
 		prompt = get_user_input(prompt);
 		if (*prompt)
-			printf("%s\n", prompt);
+			printf("%s\n", prompt);		//currently: simple echoing
 	}
 	return (0);
 }
