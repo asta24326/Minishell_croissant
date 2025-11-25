@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/25 09:37:38 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/25 23:07:43 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,11 @@
 /* redirections struct */
 typedef struct	s_redirs
 {
-	int		infile_fd;
-	int		outfile_fd;
+	int		in_fd;
+	int		out_fd;
 	bool	append;
-	int		heredoc_fd;
+	bool	exp_hdoc; // if heredoc delimeter has '  ' 
+	int		hdoc_fd[2]; // on exec step
 }	t_redirs;
 
 /* command data structure */
@@ -100,7 +101,7 @@ typedef struct	s_cmd
 	char		**args;
 	char		*infile;
 	char		*outfile;
-	char		*heredoc_delim;
+	char		*hdoc_delim;
 	t_redirs	*redirs;
 	t_cmd		*next;
 }	t_cmd;
