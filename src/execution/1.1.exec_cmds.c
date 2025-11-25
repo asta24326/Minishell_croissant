@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   1.1.exec_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:15:52 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/23 23:36:00 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/24 22:03:15 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,66 @@
 
 /* Expecting "t_data *shell, char **env" */
 
-void	ft_exec_init(t_data *shell, char **env)
+void	ft_exec_cmds(t_shell *shell, t_cmd *cmd)
 {
-	ft_pipes_init(shell);
-	
+	if (!cmd)
+		return ;
+	if (cmd->next)
+		ft_exec_multy_cmds(shell);
+	else
+		ft_exec_solo_cmd(shell);
 
+	//smth with last exit status??
+	ft_pipes_init(shell);
 }
 
 
-// initialisation of pipes
+// exec solo command // 
+void	ft_exec_solo_cmd(t_shell *shell)
+{
+	int	saved_stdin;
+	int	saved_stdout;
 
-int	ft_pipes_init(t_data *shell)
+	if (ft_is_builtin(cmd->name))
+	{
+		if (cmd->redirs)
+		{
+			if (ft_redir_in_parent)
+
+	}
+}
+
+int	ft_redir_in_parent(t_redirs *redir, int *saved_stdin, int *save_stdout)
+{
+	*saved_stdin = dup(STDIN_FILENO);
+	*saved_stdout = dup(STDOUT_FILENO);
+	if (*saved_stdin == -1 || *saved_stdout == -1)
+		return (perror("dup failed", FAILURE);
+	if (ft_hadle_redir(redir) == 1)
+	{
+		dup2(*saved_stdin, STDIN_FILENO);
+		dup2(*saved_stdout, STDOUT_FILENO);
+		close(*saved_stdin);
+		close(*saved_stdout);
+		return (1);
+	}
+	return (0);
+
+bool	ft_is_builtin(char *cmd_name)
+{
+	if (ft_strcmp(cmd_name, "echo") == 0
+		|| ft_strcmp(cmd_name, "cd") == 0
+		|| ft_strcmp(cmd_name, "pwd") == 0
+		|| ft_strcmp(cmd_name, "export") == 0
+		|| ft_strcmp(cmd_name, "unset") == 0
+		|| ft_strcmp(cmd_name, "env") == 0
+		|| ft_strcmp(cmd_name, "exit") == 0)
+		return (true);
+	return (false);
+}
+
+// pipes initialisation //
+int	ft_pipes_init(t_shell *shell)
 {
 	int	pipes_count;
 	int	i;
@@ -50,6 +99,9 @@ int	ft_pipes_init(t_data *shell)
 	}
 	return (SUCCESS);
 }
+
+
+
 
 // to find check the path and command existance and prepare path for execve
 char	*ft_getpath(char *cmd, char **env)

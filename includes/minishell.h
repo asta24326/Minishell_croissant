@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/23 23:36:02 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/25 09:37:38 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,31 +84,34 @@
 
 /* STRUCTURES */
 
+/* redirections struct */
+typedef struct	s_redirs
+{
+	int		infile_fd;
+	int		outfile_fd;
+	bool	append;
+	int		heredoc_fd;
+}	t_redirs;
+
+/* command data structure */
 typedef struct	s_cmd
 {
-/* cmd data */
-	char 	*cmd;
-	char	**cmd_args;
-/* infile data */
-	char	*infile;
-	int		infile_fd;
-/* outfile data */
-	char	*outfile;
-	int		outfile_fd;
-	bool	append; // yes or no
-/* heredoc data */
-	char	*heredoc_delim;
-	int		heredoc_fd;
-/* next node in list*/
-	t_cmd	*next;
+	char 		*name;
+	char		**args;
+	char		*infile;
+	char		*outfile;
+	char		*heredoc_delim;
+	t_redirs	*redirs;
+	t_cmd		*next;
 }	t_cmd;
 
 /* main data storage */
-typedef struct	s_data
+typedef struct	s_shell
 {
 	int		cmds_count;
 	int		**pipes;
-	t_cmd	*init_cmd;
-}	t_data;
+	char	**env;
+	t_cmd	*cmd;
+}	t_shell;
 
 #endif
