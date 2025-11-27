@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1.1.input_handling.c                               :+:      :+:    :+:   */
+/*   0.2.minishell_initialization.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 12:52:45 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/24 17:58:42 by kschmitt         ###   ########.fr       */
+/*   Created: 2025/11/27 13:13:31 by kschmitt          #+#    #+#             */
+/*   Updated: 2025/11/27 19:30:13 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// ---------------  libft functions - need to go out!  --------------
+// ---------------  - needs to go out!  --------------
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	i;
@@ -106,17 +112,6 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 }
 // ---------------  libft functions - end!  --------------
 
-// works
-// returns the ID of the corresponding computer for the shell prompt (e.g. c4b10c4)
-char	*get_pc_id(void)
-{
-	char	*session;
-	char	*pc_id;
-
-	session = getenv("SESSION_MANAGER");
-	pc_id = ft_substr(session, 6, 7);		//attention: hard-coded, to be tested
-	return (pc_id);
-}
 
 // works
 // returns the entire prompt for the shell to ask for user input (e.g. kschmitt@c4b10c4:~$ )
@@ -127,41 +122,79 @@ const char	*get_prompt(void)
 	const char	*prompt;
 
 	user = getenv("USER");
-	pc_id = get_pc_id();
-	prompt = ft_strjoin(user, "@");			//attention: memory allocation
-	prompt = ft_strjoin(prompt, pc_id);		//attention: memory allocation
-	prompt = ft_strjoin(prompt, ":~$ ");	//attention: memory allocation
+	pc_id = ft_substr(getenv("SESSION_MANAGER"), 6, 7);	//attention, hard coded, to be tested
+	prompt = ft_strjoin(user, "@");						//attention: memory allocation
+	prompt = ft_strjoin(prompt, pc_id);					//attention: memory allocation
+	prompt = ft_strjoin(prompt, ":~$ ");				//attention: memory allocation
 	return (prompt);
 }
+
+// handles 'ctrl-c' - works
+// handles 'ctrl-\' - WIP
+void	handle_signal(int signum)
+{
+	// 'ctrl-c': displays a new prompt on command line
+	if (signum == 2)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	// 'ctrl-\': does nothing - so, does ignore SIGQUIT, disbales echo (nothing to be seen)
+	if (signum == 3)
+	{
+		printf(" - ignoring!\n");		//needs to be handled!
+		// disable_echo();
+	}
+	return ;
+}
+
+// ---for TESTING----
+// void	parse(char *input_str, t_shell *minishell, char **env)
+// {
+// 	printf("parsing! NOW!\n");
+// }
 
 // works
 // sets the prompt, reads the user input and saves it into a char *buffer
 // creates and continously adds to history if input is non-empty
-char	*get_user_input(char *prompt)
+int	init_minishell(t_shell *minishell, char **env)
 {
-	if (prompt)
-	{
-		free(prompt);
-		prompt = NULL;
-	}
-	prompt = readline(get_prompt());
-// adds the prompt to the history (attention, history needs to be freed at end of program runtime)
-	if (prompt && *prompt)
-		add_history(prompt);
-	return (prompt);
-}
+	static char	*input_str;
 
-// input handling - for testing
-int	main(void)
-{
-	static char	*prompt;
-
-	prompt = NULL;
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, handle_signal);
 	while (1)
 	{
-		prompt = get_user_input(prompt);
-		if (*prompt)
-			printf("%s\n", prompt);		//currently: simple echoing
+		if (input_str)
+		{
+			free(input_str);
+			input_str = NULL;
+		}
+		input_str = readline(get_prompt());
+// exits in case of ctrl-D
+		if (!input_str)
+		{
+			printf("exit\n");
+			exit(1);
+		}
+// adds user input to history (attention, history needs to be freed at end of program runtime)
+		if (*input_str)
+		{
+			parse(input_str, minishell, env);
+			add_history(input_str);
+		}
 	}
+	return (0);
+}
+
+// only for testing-------------------------------
+int	main(int ac, char **av, char **env)
+{
+	t_shell	minishell;
+
+	(void)ac;
+	if (!(init_minishell(&minishell, env)))
+		return (printf("Error with initialization.\n"), 1);
 	return (0);
 }

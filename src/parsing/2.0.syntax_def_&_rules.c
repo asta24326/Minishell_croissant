@@ -6,13 +6,21 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 13:54:27 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/25 19:42:39 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/27 12:18:31 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* DEFINITIONS */
 
-invalid cmd
+input string
+	- entire string returned by readline (= user input)
+
+command string
+	- string enclosed by start/end of input string OR by pipe(s)
+	- holds exactly 1 command
+	- can additionally include flags, arguments and redirections
+
+invalid cmd string
 	- contains only whitespaces
 	- contains only tokens (<|>)
 	- contains only '$'/ $XXX
@@ -23,8 +31,8 @@ invalid cmd
 	- contains anything of the above in combination
 	- contains digits
 
-valid cmd
-	- contains >= 1 charachter which is not
+valid cmd string
+	- contains >= 1 valid cmd which is not
 		a) whitespace
 		b) token
 		c) '$' / $XXX
@@ -32,12 +40,17 @@ valid cmd
 	// - contains filename for redirection/append
 	// - contains delimiter for heredoc
 	- OR contains valid redirection
-	- does not contain digits
+
+valid cmd
+	- contains non-digit characters
+	-
+
 
 valid pipe
 	- is a single pipe token
 	- contains valid cmd on left side
 	- contains valid cmd on right side
+	- is not in quotes
 
 valid redirection
 	- is 1 or 2 redir tokens
@@ -47,12 +60,19 @@ valid redirection
 		'<' does nothing >> no need to pass probably
 		'<<' opens heredoc
 		'>>' does nothing >> no need to pass probably
+	- is not in quotes
 
 valid quotes
 	- everything seems valid, haha
 
 
 /* RULES */
+
+input string
+	- if cmd cannot work with output of prev cmd passed by pipe, stdout is simply overwritten (execution)
+	- if one command string has error
+		- error is redirected to fd2
+		- pipe continues with fd1 being empty
 
 pipe [|]
 	(0) amount
@@ -97,7 +117,51 @@ quotes ["" '']
 		- outer quotes are taken, inner ones are ignored
 	(4) env arg >> needs indication/differentiation for execv
 		- "$XX" passes the env. argument
-		- '$XX' passes a string
+		- '$XX' passes a literal string
+	(5) content
+		-if nothing in between quotes >> quotes are entirely ignored
+	(6) syntax
+		- searches for next matching quotation mark and takes it as end of quote
+
+quotes at start of command string
+	- bash expects a command inside quotes > NEEDS to be a command
+	- if no command > syntaxt error
+
+quotes on built-in commands
+	- can be in quotes, but then it has to be EXACTLY the command (no whitespaces, no arguments)
+	- for cd: path can be in quotes too, also needs to be EXACT (no whitespaces)
+
+quotes on simple commands
+	- can be in quotes, but then it has to be EXACTLY the command (no whitespaces, no arguments)
+
+quotes on commands taking several arguments (e.g. cat, echo)
+	- can be in quotes, but then it has to be EXACTLY the command (no whitespaces, no arguments)
+	- arguments
+		- filename can be in quotes too, also needs to be EXACT (no whitespaces)
+		- other arguments can be in quotes too
+
+quotes on commands followed by a flag (eg. ls -a)
+	- can be in quotes, but then it has to be EXACTLY the command (no whitespaces, no arguments)
+	- flag can be in quotes too, also needs to be EXACT (no whitespaces)
+
+quotes around tokens
+	pipe
+		- then considered as argument to command
+	redirections
+		- at start of cmd str: then considered as cmd > error
+		- at end of cmd str: then considered as argument to command
+		-filename can be in quotes too, also needs to be EXACT (no whitespaces)
+		-quoted deliminter pass env. arg as literal string, not as env. var.!
+
+quotes on to be created filenames (> and >>)
+	- filenames include quotes and all whitespaces within quote
+
+quotes on env. arg. ($)
+	- quotes around $ only
+		- treates as two separate arguments > passes it literally (e.g. $USER)
+	- quotes around entire argument
+		- single quotes pass argument literally (e.g. $USER)
+		- double quotes pass env. arg
 
 
 /* BUILT-IN COMMANDS */

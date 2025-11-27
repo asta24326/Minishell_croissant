@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   0.x.free_free_free.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/23 15:34:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/24 16:27:46 by kschmitt         ###   ########.fr       */
+/*   Created: 2025/11/27 15:02:19 by kschmitt          #+#    #+#             */
+/*   Updated: 2025/11/27 15:18:03 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+/* to be freed at end of program runtime */
 
-int	main(int ac, char **av, char **env)
-{
-	t_data	minishell;
+// 0.2.
+// HISTORY		void rl_clear_history(void)
+// PROMPT		free(prompt)
 
-	init(&minishell);
-	parsing(&minishell);
-	executing(&minishell, env);
-	return (0);
-}
+

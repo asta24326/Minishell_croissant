@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2.1.syntax_check.c                                 :+:      :+:    :+:   */
+/*   0.1.main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 13:01:56 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/26 17:50:24 by kschmitt         ###   ########.fr       */
+/*   Created: 2025/11/23 15:34:19 by kschmitt          #+#    #+#             */
+/*   Updated: 2025/11/27 17:30:24 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* ORDER */
+int	main(int ac, char **av, char **env)
+{
+	t_shell	minishell;
 
-(0) loop through whitespaces if not within quotes
-
-(1) syntax check (pipes, redirs)
-
-(2) split input string into cmd strings
-	>> pass #cmd
-
-(3) if (!redir) >> pass cmd
-
-(4) [loop] if (!redir) >> pass argument
-
-(5) if (redir) >> pass struct redirs
-
+	(void)ac;									//alternative: check if ac == 1, else error
+	(void)av;									//program name needed?
+	if (!(init_minishell(&minishell, env)))
+		return (ft_printf("Error with initialization.\n"), 1);
+	if (!(parsing(&minishell)))
+		return (ft_printf("Syntax error.\n"), 1);
+	executing(&minishell);
+	return (0);
+}
