@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:18:34 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/28 17:29:15 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/28 18:11:04 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	parse(char *input_str, t_shell *minishell, char **env)
 {
 	//syntax_check
 	if (!(is_valid_syntax(input_str)))
-		ft_printf("Error. ")
+		ft_printf("Syntax error.\n");
 	//list_creation
 	//parsing
 }
