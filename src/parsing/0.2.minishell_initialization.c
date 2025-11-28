@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:13:31 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/27 19:30:13 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/28 11:40:14 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,10 +178,10 @@ int	init_minishell(t_shell *minishell, char **env)
 			printf("exit\n");
 			exit(1);
 		}
-// adds user input to history (attention, history needs to be freed at end of program runtime)
 		if (*input_str)
 		{
 			parse(input_str, minishell, env);
+			// adds user input to history (attention, history needs to be freed at end of program runtime)
 			add_history(input_str);
 		}
 	}
