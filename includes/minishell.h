@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/28 17:23:43 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/29 15:14:04 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # define SUCCESS 0
 # define FAILURE 1
+# define PATH_MAX 1024
 
 /* LIBRARIES */
 
@@ -96,7 +97,7 @@ typedef struct	s_redirs
 /* command data structure */
 typedef struct	s_cmd
 {
-	char 			*name;
+//	char			*name - no need anymore
 	char			**args;
 	char			*infile;
 	char			*outfile;
@@ -115,5 +116,37 @@ typedef struct	s_shell
 	t_cmd	*cmd;
 	int		exit_status;
 }	t_shell;
+
+/* FUNCTIONS */
+/* execution folder */
+
+// 1.1 exec_cmds.c
+void	ft_exec_cmds(t_shell *shell, t_cmd *cmd);
+void	ft_exec_solo_cmd(t_shell *shell, t_cmd *cmd);
+bool	ft_is_builtin(char *cmd_name);
+int		ft_pipes_init(t_shell *shell);
+
+// builtin_1.c
+int		ft_echo(t_cmd *cmd);
+int		ft_cd(t_shell *shell, t_cmd *cmd);
+
+// heredoc_handle.c
+int		ft_handle_heredoc(t_shell *shell, t_cmd *cmd, t_redirs *rdrs);
+void	ft_process_all_heredocs(t_shell *shell);
+
+// path_setup.c
+char	*ft_getpath(char *cmd, char **env;
+char	*ft_parse_env(char *name, char **env);
+void	ft_free_arr(char **arr);
+
+// redirs_setup.c
+void	ft_setup_redirs(t_shell *shell, t_cmd *cmd);
+
+// cd.c
+int		ft_cd(t_shell *shell, t_cmd *cmd);
+
+// echo.c
+int		ft_echo(t_cmd *cmd);
+
 
 #endif

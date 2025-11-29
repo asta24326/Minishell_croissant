@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:05:41 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/26 23:11:02 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/29 15:05:39 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,16 @@ char	*ft_parse_env(char *name, char **env)
 		free(substr);
 	}
 	return (NULL);
+}
+
+void	ft_free_arr(char **arr)
+{
+	size_t	i;
+
+	if (!arr)
+		return ;
+	i = -1;
+	while (arr[++i])
+		free(arr[i]);
+	free(arr);
 }

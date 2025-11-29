@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 22:51:59 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/26 23:13:24 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/29 15:09:04 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int	ft_handle_heredoc(t_shell *shell, t_cmd *cmd, t_redirs *rdrs)
 		line = readline("> ");
 		if (!line) // EOF of Ctrl+D
 		{
-			ft_putstr_fd("minishell: warning: here-document delimeted by end-of-file\n", 2);
-				break;
+			ft_putstr_fd("minishell: warning: heredoc EOF\n", 2);
+			break ;
 		}
 		if (ft_strcmp(line, cmd->hdoc_delim) == 0)	// cheking delimeter (w/o env for now)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		ft_write_heredoc_line(shell, cmd->redirs, line);
 	}
