@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/29 15:14:04 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/29 18:53:55 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,9 @@ int		ft_handle_heredoc(t_shell *shell, t_cmd *cmd, t_redirs *rdrs);
 void	ft_process_all_heredocs(t_shell *shell);
 
 // path_setup.c
-char	*ft_getpath(char *cmd, char **env;
+char	*ft_getpath(char *cmd, char **env);
 char	*ft_parse_env(char *name, char **env);
-void	ft_free_arr(char **arr);
+void	ft_free_arr_str(char **arr);
 
 // redirs_setup.c
 void	ft_setup_redirs(t_shell *shell, t_cmd *cmd);
