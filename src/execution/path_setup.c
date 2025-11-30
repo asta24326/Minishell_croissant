@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:05:41 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/29 15:05:39 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/30 14:07:02 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ char	*ft_getpath(char *cmd, char **env)
 		exec_str = ft_strjoin(path_prep, cmd);
 		free (path_prep);
 		if (access(exec_str, F_OK | X_OK) == 0)
-			return (ft_free_arr(allpaths), exec_str);
+			return (ft_free_arr_str(allpaths), exec_str);
 		free (exec_str);
 	}
-	return (ft_free_arr(allpaths), NULL);
+	return (ft_free_arr_str(allpaths), NULL);
 }
 
 char	*ft_parse_env(char *name, char **env)
@@ -63,7 +63,7 @@ char	*ft_parse_env(char *name, char **env)
 	return (NULL);
 }
 
-void	ft_free_arr(char **arr)
+void	ft_free_arr_str(char **arr)
 {
 	size_t	i;
 

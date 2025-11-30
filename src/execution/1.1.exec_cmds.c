@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:15:52 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/29 15:05:31 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/11/30 22:26:55 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void	ft_exec_cmds(t_shell *shell, t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	ft_pipes_init(shell);
 	ft_process_all_heredocs(shell, shell->cmd); // processing all heredocs before executing
-	
+	ft_pipes_init(shell);
 	// if 1 command or several
 	if (cmd->next)
 		ft_exec_multi_cmds(shell, cmd);
@@ -42,7 +41,7 @@ void	ft_exec_solo_cmd(t_shell *shell, t_cmd *cmd)
 		ft_exec_system(shell, cmd);
 }
 
-bool	ft_is_builtin(char *cmd_name)
+bool	ft_is_builtin_for_exec(char *cmd_name)
 {
 	if (ft_strcmp(cmd_name, "echo") == 0
 		|| ft_strcmp(cmd_name, "cd") == 0
