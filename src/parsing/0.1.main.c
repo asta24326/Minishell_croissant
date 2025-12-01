@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:34:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/01 15:18:16 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:46:50 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	main(int ac, char **av, char **env)
 	(void)av;									//program name needed?
 	if (!init_minishell(env))
 		return (ft_printf("Error with initialization.\n"), 1);
-	if (!parsing(&minishell))
-		return (ft_printf("Syntax error.\n"), 1);
-	executing(&minishell);
+	// if (!parsing(&minishell))
+	// 	return (ft_printf("Syntax error.\n"), 1);
+	// executing(&minishell);
 	return (0);
 }

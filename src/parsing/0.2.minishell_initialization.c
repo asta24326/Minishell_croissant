@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:13:31 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/01 15:18:03 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:47:20 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,10 +191,8 @@ int	init_minishell(char **env)
 // only for testing-------------------------------
 int	main(int ac, char **av, char **env)
 {
-	t_shell	minishell;
-
 	(void)ac;
-	if (!(init_minishell(&minishell, env)))
+	if (!(init_minishell(env)))
 		return (printf("Error with initialization.\n"), 1);
 	return (0);
 }
