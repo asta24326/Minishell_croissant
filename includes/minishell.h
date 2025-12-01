@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/30 14:01:53 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/30 18:33:25 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct	s_cmd
 /* main data storage */
 typedef struct	s_shell
 {
-	int		cmds_count;
+	int		pipe_count;
 	int		**pipes;
 	char	**env;
 	t_cmd	*cmd;
