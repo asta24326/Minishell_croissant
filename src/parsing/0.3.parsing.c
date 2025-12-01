@@ -6,52 +6,11 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:18:34 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/28 18:11:04 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:36:07 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// TO BE REDONE! >> all passed by struct
-// checks whether cmd is built-in command
-// sends it directly to execution (except for echo and cd)
-// int	is_builtin_cmd(char *str)
-// {
-// 	// returns 2 (as flag if you want) to indicate that those commands will be passed through struct
-// 	if (!(ft_strncmp(str, "echo", ft_strlen(str)))
-// 		|| !(ft_strncmp(str, "cd", ft_strlen(str))))
-// 		return (2);
-// 	else if (!(ft_strncmp(str, "pwd", ft_strlen(str))))
-// 		exec_pwd();
-// 	else if (!(ft_strncmp(str, "export", ft_strlen(str))))
-// 		exec_export();
-// 	else if (!(ft_strncmp(str, "unset", ft_strlen(str))))
-// 		exec_unset();
-// 	else if (!(ft_strncmp(str, "env", ft_strlen(str))))
-// 		exec_env();
-// 	else if (!(ft_strncmp(str, "exit", ft_strlen(str))))
-// 		exec_exit();
-// 	else
-// 		return (0);
-// 	return (1);
-// }
-
-// to be discussed
-// checks whether cmd is built-in command, nothing else needs to be passed here
-int	is_stand_alone_builtin_cmd(char *str)
-{
-	if (!(ft_strncmp(str, "pwd", ft_strlen(str))))
-		return (1);
-	else if (!(ft_strncmp(str, "export", ft_strlen(str))))
-		return (1);
-	else if (!(ft_strncmp(str, "unset", ft_strlen(str))))
-		return (1);
-	else if (!(ft_strncmp(str, "env", ft_strlen(str))))
-		return (1);
-	else if (!(ft_strncmp(str, "exit", ft_strlen(str))))
-		return (1);
-	return (0);
-}
 
 // works
 // takes the current byte at which we stopped and looks into the following one(s)
@@ -70,11 +29,26 @@ char	sneak_preview(char *str)
 }
 
 
-void	parse(char *input_str, t_shell *minishell, char **env)
+int	parse(char *pipeline, char **env)
 {
+	int	i;
+
+	i = 0;
 	//syntax_check
-	if (!(is_valid_syntax(input_str)))
-		ft_printf("Syntax error.\n");
+	if (!is_valid_syntax(pipeline))
+		return (printf("Syntax error.\n"), FAILURE);
+	//extract data for t_shell
+	if (!parse_pipeline(pipeline, env))
+		return (printf("Error while extracting t_shell data.\n"), FAILURE);
+// I AM HERE >> from here I continue in parse_pipeline
+	while (pipeline[i])
+	{
+		if (pipeline[i] == 60 || pipeline[i] == 62)
+			parse_redir(pipeline + i);				//attention, I need to get back the byte after redir
+
+		i++;
+	}
 	//list_creation
 	//parsing
+	return (SUCCESS);
 }

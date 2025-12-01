@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:13:31 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/28 11:40:14 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:18:03 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,15 +117,15 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 // returns the entire prompt for the shell to ask for user input (e.g. kschmitt@c4b10c4:~$ )
 const char	*get_prompt(void)
 {
-	char		*user;
-	char		*pc_id;
+	char		*first_part;
+	char		*sec_part;
 	const char	*prompt;
 
-	user = getenv("USER");
-	pc_id = ft_substr(getenv("SESSION_MANAGER"), 6, 7);	//attention, hard coded, to be tested
-	prompt = ft_strjoin(user, "@");						//attention: memory allocation
-	prompt = ft_strjoin(prompt, pc_id);					//attention: memory allocation
-	prompt = ft_strjoin(prompt, ":~$ ");				//attention: memory allocation
+	first_part = ft_strjoin(getenv("USER"), "@");
+	sec_part = ft_strjoin(ft_substr(getenv("SESSION_MANAGER"), 6, 7), ":~$ ");
+	prompt = ft_strjoin(first_part, sec_part);				//attention: memory allocation
+	free(first_part);
+	free(sec_part);
 	return (prompt);
 }
 
@@ -158,7 +158,7 @@ void	handle_signal(int signum)
 // works
 // sets the prompt, reads the user input and saves it into a char *buffer
 // creates and continously adds to history if input is non-empty
-int	init_minishell(t_shell *minishell, char **env)
+int	init_minishell(char **env)
 {
 	static char	*input_str;
 
@@ -180,7 +180,7 @@ int	init_minishell(t_shell *minishell, char **env)
 		}
 		if (*input_str)
 		{
-			parse(input_str, minishell, env);
+			parse(input_str, env);
 			// adds user input to history (attention, history needs to be freed at end of program runtime)
 			add_history(input_str);
 		}

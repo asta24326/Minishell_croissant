@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:55:55 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/11/28 17:26:54 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/11/30 15:20:40 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	is_prefix(char c)
 // checks whether redirection has correct syntax
 // takes the current byte which is a redir sign
 // attention: I do not handle non-closed quotes (as discussed)
-// has to be checked before: token is not quoted
 int	is_valid_redir(char *str)
 {
 	char	redir_sign;
