@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 16:18:09 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/01 15:07:01 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/02 18:16:04 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,103 @@ char	*parse_cmd(char *input_str)
 	return (cmd);
 }
 
+// works
+// needed: str with blackout quotes
+// returns the number of redirs in cmd_str
+int	get_redir_count(char *cmd_str)
+{
+	int	count;
+
+	count = 0;
+	while (*cmd_str)
+	{
+		// works because I excluded the pipes at this stage
+		if (is_token(*cmd_str))
+		{
+			count++;
+			// checks whether it is append or heredoc
+			// works because I did syntax check before
+			if (is_token(*cmd_str))
+				cmd_str++;
+		}
+		cmd_str++;
+	}
+	return (count);
+}
+
+// works
+// needed: str with blackout quotes
+// needed: how many redirs? (also with blackout quotes)
+int	get_arg_count(char *cmd_str)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = -1;
+	while (cmd_str[++i])
+	{
+		if (!is_whitespace(cmd_str[i]) && !is_token(cmd_str[i]))
+		{
+			count++;
+			// whitespace and token work as delimiter
+			while (cmd_str[i] && !is_whitespace(cmd_str[i])
+				&& !is_token(cmd_str[i]))
+				i++;
+		}
+	}
+	// if redirs in cmd_str, substract the filename/delimiter
+	return (count - (get_redir_count(cmd_str)));
+}
+
+// I AM HERE
+// attention, this cannot be blackout str
+char	**fillarr(char *cmd_str, char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (*cmd_str)
+	{
+		while (is_whitespace(*cmd_str) || is_token(*cmd_str))
+		{
+
+		}
+	}
+}
+
+// the redirs need to be identified and taken out of the equation
+char	**create_cmd_arr(char *cmd_str)
+{
+	char	*arr;
+
+	arr = malloc(get_arg_count(cmd_str) * sizeof(char *));
+	if (!arr)
+		return (NULL);
+	return (fillarr(cmd_str, arr));
+}
+
 
 // for testing only
 int	main(void)
 {
-	char	*str;
+	char	**arr;
+	int		i;
 
-	str = "exit";
-	if (!is_builtin_cmd(str))
-		printf("not build-in\n");
-	else
-		printf("build-in\n");
+	arr = parse_cmd("hellloooo 'hey' oooops' where?'");
+	i = -1;
+	while (++i < 4)
+		printf("arr[%i]: %s\n", i, arr[i]);
+	return (0);
 }
+
+// int	main(void)
+// {
+// 	char	*str;
+
+// 	str = "exit";
+// 	if (!is_builtin_cmd(str))
+// 		printf("not build-in\n");
+// 	else
+// 		printf("build-in\n");
+// }

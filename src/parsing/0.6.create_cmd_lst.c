@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 17:40:26 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/02 15:04:14 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:47:12 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,21 +252,39 @@ char	*blackout_quoted_content(char *str)
 // 	struct t_cmd	*next;
 // }	t_cmd;
 
-char	**extract_cmd_and_args(char *cmd_line)
+
+// needs to go out
+int	is_quote(char c)
 {
-	// this is actually cmd parsing!
+	if (c == 34 || c == 39)
+		return (1);
+	return (0);
 }
 
+// works
+// checks whether quotes are closed
+// attention: I need to get rest of quote if this function returns 0
 int	quotes_are_closed(char *cmd_line)
 {
+	char	quote;
+	int		flag;
+
+	flag = 0;
 	while (*cmd_line)
 	{
-		if (is_quote(cmd_line))
+		if (is_quote(*cmd_line) && flag == 0)
 		{
 			quote = *cmd_line;
+			flag = 1;
+			cmd_line++;
 		}
+		if (*cmd_line == quote && flag == 1)
+			flag = 0;
 		cmd_line++;
 	}
+	if (flag == 1)
+		return (0);
+	return (1);
 }
 
 // WIP
@@ -278,11 +296,11 @@ t_cmd	*create_node(char *cmd_line)
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new)
 		return (printf("Error with node creation.\n"), NULL);
-	new->args = cmd_line;		//attention, needs to become an array (memory allocation, cmd line split)
-	printf("in create_node: %s\n", new->args);
-	// new->args = extract_cmd_and_args(cmd_line);
-	// new->closed = quotes_are_closed(cmd_line);
-	// new->builtin = is_builtin_cmd(cmd_line);
+	// new->args = cmd_line;	//attention, needs to become an array (memory allocation, cmd line split)
+	// printf("in create_node: %s\n", new->args);
+	new->args = parse_cmd(cmd_line);
+	new->closed = quotes_are_closed(cmd_line); //not needed if I handle this case
+	// new->builtin = is_builtin_cmd(cmd_line); //only when I identified cmd
 	new->redirs = NULL; //will be handled in parse_redir
 	new->next = NULL;
 	return (new);
@@ -356,8 +374,6 @@ t_cmd	*create_cmd_list(char *pipeline, t_shell minishell)
 	// add_node(&list, create_node(NULL));		//check if this valid //not needed
 	return (list);
 }
-
-
 
 // ----------for testing only-----------------------
 int	main(void)
