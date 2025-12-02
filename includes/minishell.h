@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/01 17:43:39 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:05:11 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,20 +92,20 @@ typedef struct	s_redirs
 	int		out_fd;
 	bool	exp_hdoc; // no - if heredoc delimeter has '  ', yes - if none
 	int		hdoc_fd[2]; // on exec step
+	char	*hdoc_delim;
 }	t_redirs;
 
 /* command data structure */
 typedef struct	s_cmd
 {
 //	char			*name - no need anymore
-	char			**args;
+	char			*args; //attention: needs to be turned back into array
 	// char			*infile;
 	// char			*outfile;
-	char			*hdoc_delim;
 	bool			closed; // false if further input is needed through interaction
 	bool			builtin;// true if is builtin command
 	t_redirs		*redirs;
-	struct t_cmd	*next;
+	struct s_cmd	*next;
 }	t_cmd;
 
 /* main data storage */
