@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0.10.parse_redir.c                                 :+:      :+:    :+:   */
+/*   1.1.parse_pipeline.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/30 14:18:25 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/03 20:13:22 by kschmitt         ###   ########.fr       */
+/*   Created: 2025/12/01 15:06:57 by kschmitt          #+#    #+#             */
+/*   Updated: 2025/12/04 18:34:16 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// // goes out
 // size_t	ft_strlcat(char *dst, const char *src, size_t size)
 // {
 // 	size_t	i;
@@ -30,6 +31,7 @@
 // 	return (i + strlen(src));
 // }
 
+// // goes out
 // char	*ft_strjoin(const char *s1, const char *s2)
 // {
 // 	char	*new;
@@ -46,16 +48,10 @@
 // 	return (new);
 // }
 
+// // goes out
 // int	is_quote(char c)
 // {
 // 	if (c == 34 || c == 39)
-// 		return (1);
-// 	return (0);
-// }
-
-// int	is_token(char c)
-// {
-// 	if (c == 124 || c == 60 || c == 62)
 // 		return (1);
 // 	return (0);
 // }
@@ -70,10 +66,10 @@
 // 	char	quot_mark;
 // 	int		i;
 
-// 	copy = ft_strjoin("", str);		//memory freed in get_pipe_count
+// 	copy = ft_strjoin("", str);
 // 	quot_mark = 0;
-// 	i = 0;
-// 	while (copy[i])
+// 	i = -1;
+// 	while (copy[++i])
 // 	{
 // 		if (is_quote(copy[i]))
 // 		{
@@ -85,65 +81,48 @@
 // 				i++;
 // 			}
 // 		}
-// 		i++;
 // 	}
 // 	return (copy);
 // }
 
-// - get sign
-// - get filename/redir
-// -
-
-// status in program when starting to parse redirs:
-// 	- quotes are blacked out
-// 	- ensured that filename/delimiter are there (so correct syntax)
-// 	- pipes are excluded, we look at cmd line
-
-//works
-// str needs to be blacked out
-int	get_redir_count(char *cmd_str)
+// works, no memory leaks
+// extracts amount of pipes
+int	get_pipe_count(char *pipeline)
 {
-	char	*copy;
-	int		i;
 	int		count;
+	int		i;
+	char	*copy;
 
-	copy = blackout_quoted_content(cmd_str);
-	i = 0;
 	count = 0;
-	while (copy[i])
-	{
-		// works because pipes have been taken out and quotes are blacked out
-		if (is_token(copy[i]))
-		{
+	i = -1;
+	copy = blackout_quoted_content(pipeline);
+	while (copy[++i])
+		if (copy[i] == 124)
 			count++;
-			i++;
-			if (is_token(copy[i]))
-				i++;
-		}
-		i++;
-	}
-	free (copy);
+	free(copy);
 	return (count);
 }
 
-// WIP
-int	get_redir_type(char *cmd_str)
+// works
+// extracts data for the t_shell structure
+void	parse_pipeline(char *pipeline, char **env)
 {
+	t_shell	minishell;
 
+	if (!is_valid_syntax(pipeline))
+		return (printf("Syntax error.\n"), FAILURE);
+	minishell.pipe_count = get_pipe_count(pipeline);
+	minishell.pipes = NULL; //handled in exec
+	minishell.env = env;
+	create_cmd_list(pipeline, minishell.pipe_count + 1, &minishell);
+	minishell.exit_status = 0;
+	execute(&minishell); //passing to execution
 }
 
-// for testing only
-int	main(void)
-{
-	// char	*cmd_str;
-	// char	*redir_sign;
-	// char	*file_delim;
-	// int		i;
-
-	printf("redir count = %i\n", get_redir_count("<<hello >>whoop >jou <Xmas!"));
-	// parse_redir("hellloooo 'hey' oooops' where?'");
-	// i = -1;
-	// while (++i < 4)
-	// 	printf("arr[%i]: %s\n", i, arr[i]);
-	return (0);
-}
+// ----------for testing only-----------------------
+// int	main(int ac, char **av, char **env)
+// {
+// 	(void)ac;
+// 	(void)av;
+// 	parse_pipeline("hello | string | another ||", env);
+// }

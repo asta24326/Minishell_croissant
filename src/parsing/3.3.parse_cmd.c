@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0.8.parse_quote.c                                  :+:      :+:    :+:   */
+/*   3.3.parse_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 17:35:55 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/03 19:35:43 by kschmitt         ###   ########.fr       */
+/*   Created: 2025/12/03 18:49:19 by kschmitt          #+#    #+#             */
+/*   Updated: 2025/12/04 13:20:08 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,47 +71,29 @@
 // ------------END (needs to go out)---------------------
 
 // works
-// attention: so far not conisdered: open quotation marks
-// returns the str length of the quote that has to be passed to parse_cmd
-int	get_quot_len(char *str, char quot_mark, int *env_arg)
+// returns length of cmd/flag/arg/env_arg
+int	get_arg_len(char *str)
 {
 	int	len;
 
 	len = 0;
-	// skip first quotation mark
-	str++;
-	while (*str && *str != quot_mark)
+	while (!is_whitespace(*str) && !is_token(*str))
 	{
 		len++;
-		// if dollar is encountered, env_arg is "tunred off"
-		if (*str == 36)
-			*env_arg = 0;
 		str++;
 	}
-	// adds two bytes in case of single quotation marks in combination with dollar sign to include quotation marks into string
-	if (quot_mark == 39 && *env_arg == 0)
-		len += 2;
 	return (len);
 }
 
-// works (not tested yet: inclusion of parse_cmd)
-// attention: so far not conisdered: open quotation marks
-// attention: I allocate memory already, so I rather pass the str directly to char **arr
-// loops through quotation and returns index after quote
-int	parse_quote(char *str, t_shell *minishell)
+// works
+// loops through cmd/flag/arg/env_arg and returns index after quote
+int	parse_cmd(char *str, t_cmd *cmd)
 {
 	int		index;
-	int		env_arg;
-	int		quot_len;
-	char	*quot;
+	char	*arg;
 
-	index = 0;
-	env_arg = 1; //true by default
-	quot_len = get_quot_len(str, *str, &env_arg);
-	quot = ft_substr(str, env_arg, quot_len);		//attention: memory allocation
-	index += parse_cmd(quot);	//no parsing needed >> directly in char **args
-	// add 2 bytes for 2 quotation marks
-	if (*str == 34 || (*str == 39 && env_arg == 1))
-		index += 2;
-	return (index + 1);
+	index = get_arg_len(str);
+	arg = ft_substr(str, 0, index); // attention: memory allocation
+	fill_args_arr(arg, cmd);
+	return (index);
 }

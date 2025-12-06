@@ -1,61 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0.4.syntax_check.c                                 :+:      :+:    :+:   */
+/*   1.2.syntax_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:55:55 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/03 19:56:43 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:33:39 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// works
-// checks whether c is space or horizontal tab
-// attention: without '\n'
-int	is_whitespace(char c)
-{
-	if (c == 32 || c == 9)
-		return (1);
-	return (0);
-}
-
-// works
-// checks whether c is pipe, right or left arrow
-int	is_token(char c)
-{
-	if (c == 124 || c == 60 || c == 62)
-		return (1);
-	return (0);
-}
-
-// works
-// checks whether c is double or single quotation mark
-int	is_quote(char c)
-{
-	if (c == 34 || c == 39)
-		return (1);
-	return (0);
-}
-
-// works
-// checks whether c is '$' (prefix for env. arg.) or '-' (prefix for flag)
-int	is_prefix(char c) //needed?
-{
-	if (c == 36 || c == 45)
-		return (1);
-	return (0);
-}
-
-// checks whether c is cmd/arg/flag/filename/delimiter
-int	is_other(char c)
-{
-	if (is_whitespace(c) || is_token(c) || is_quote(c))
-		return (0);
-	return (1);
-}
 
 // works
 // checks whether redirection has correct syntax
@@ -122,70 +77,42 @@ int	are_valid_pipes(char *str)
 	return (1);
 }
 
-// works
-// returns copy of the input str all bytes within quotes set to 0
-// attention: I do not handle non-closed quotes (as discussed)
-char	*blackout_quoted_content(char *str)
-{
-	char	*copy;
-	char	quot_mark;
-	int		i;
-
-	copy = ft_strjoin("", str);		//memory freed in "is_valid_syntax()"
-	quot_mark = 0;
-	i = 0;
-	while (copy[i])
-	{
-		if (is_quote(copy[i]))
-		{
-			quot_mark = copy[i];
-			i++;
-			while (copy[i] && copy[i] != quot_mark)
-			{
-				copy[i] = 48;
-				i++;
-			}
-		}
-		i++;
-	}
-	return (copy);
-}
-// works
+// works, no memory leaks
 // checks overall syntax of input str
 // attention: I do not handle non-closed quotes (as discussed)
 int	is_valid_syntax(char *str)
 {
-	char	*copy_woq;
+	char	*copy;
 	int		i;
 
-	copy_woq = blackout_quoted_content(str);
-	if (!(are_valid_pipes(copy_woq)))
+	copy = blackout_quoted_content(str);
+	if (!(are_valid_pipes(copy)))
 		return (printf("Syntax error. Pipe(s) invalid.\n"), 0);
 	i = 0;
-	while (copy_woq[i])
+	while (copy[i])
 	{
 		//check redirections 1 by 1
-		if (copy_woq[i] == 60 || copy_woq[i] == 62)
+		if (copy[i] == 60 || copy[i] == 62)
 		{
-			if (!(is_valid_redir(copy_woq + i)))
+			if (!(is_valid_redir(copy + i)))
 				return (printf("Syntax error. Redir(s) invalid.\n"), 0);
 		}
 		i++;
 	}
-	free (copy_woq);
+	free(copy);
 	return (1);
 }
 
-// only for testing--------------
-int	main(void)
-{
-	char	*str;
-	int		i;
+// // only for testing--------------
+// int	main(void)
+// {
+// 	char	*str;
+// 	int		i;
 
-	str = "''";
-	// str = "echo 'hi' hello | cat -l $USER | >> filex | j";
-	if (!(is_valid_syntax(str)))
-		printf("non-valid syntax\n");
-	else
-		printf("valid syntax\n");
-}
+// 	str = "''";
+// 	// str = "echo 'hi' hello | cat -l $USER | >> filex | j";
+// 	if (!(is_valid_syntax(str)))
+// 		printf("non-valid syntax\n");
+// 	else
+// 		printf("valid syntax\n");
+// }

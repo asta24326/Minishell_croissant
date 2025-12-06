@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/02 23:01:18 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/06 14:41:47 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,11 @@ typedef struct	s_redirs
 /* command data structure */
 typedef struct	s_cmd
 {
-	char			**args;
-	char			*hdoc_delim;
-	bool			closed; // false if further input is needed through interaction
+//	char			*name - no need anymore
+	char			**cmd;	//changed name
+	// char			*infile;
+	// char			*outfile;
+	// bool			closed; // false if further input is needed through interaction
 	bool			builtin;// true if is builtin command
 	t_redirs		*redirs;
 	struct t_cmd	*next;

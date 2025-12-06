@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:13:31 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/03 20:07:50 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:30:08 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@
 // }
 // ---------------  libft functions - end!  --------------
 
-
 // works
 // returns the entire prompt for the shell to ask for user input (e.g. kschmitt@c4b10c4:~$ )
 const char	*get_prompt(void)
@@ -123,7 +122,7 @@ const char	*get_prompt(void)
 
 	first_part = ft_strjoin(getenv("USER"), "@");
 	sec_part = ft_strjoin(ft_substr(getenv("SESSION_MANAGER"), 6, 7), ":~$ ");
-	prompt = ft_strjoin(first_part, sec_part);				//attention: memory allocation
+	prompt = ft_strjoin(first_part, sec_part); //attention: memory allocation
 	free(first_part);
 	free(sec_part);
 	return (prompt);
@@ -180,7 +179,7 @@ int	init_minishell(char **env)
 		}
 		if (*input_str)
 		{
-			parse(input_str, env);
+			parse_pipeline(input_str, env);
 			// adds user input to history (attention, history needs to be freed at end of program runtime)
 			add_history(input_str);
 		}
@@ -189,10 +188,10 @@ int	init_minishell(char **env)
 }
 
 // only for testing-------------------------------
-int	main(int ac, char **av, char **env)
-{
-	(void)ac;
-	if (!(init_minishell(env)))
-		return (printf("Error with initialization.\n"), 1);
-	return (0);
-}
+// int	main(int ac, char **av, char **env)
+// {
+// 	(void)ac;
+// 	if (!(init_minishell(env)))
+// 		return (printf("Error with initialization.\n"), 1);
+// 	return (0);
+// }

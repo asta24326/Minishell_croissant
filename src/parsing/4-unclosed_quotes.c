@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2.1.syntax_check.c                                 :+:      :+:    :+:   */
+/*   4-unclosed_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 13:01:56 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/01 15:03:28 by kschmitt         ###   ########.fr       */
+/*   Created: 2025/12/04 13:30:21 by kschmitt          #+#    #+#             */
+/*   Updated: 2025/12/04 13:30:52 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* ORDER */
+// works
+// checks whether quotes are closed
+// attention: I need to get rest of quote if this function returns 0
+int	quotes_are_closed(char *cmd_line)
+{
+	char	quote;
+	int		flag;
 
-(0) loop through whitespaces if not within quotes
-
-(0) black out the content of the pipes
-
-(1) syntax check (pipes, redirs)
-
-(2) split input string into cmd strings
-	>> pass #cmd
-
-(3) if (!redir) >> pass cmd
-
-(4) [loop] if (!redir) >> pass argument
-
-(5) if (redir) >> pass struct redirs
-
+	flag = 0;
+	while (*cmd_line)
+	{
+		if (is_quote(*cmd_line) && flag == 0)
+		{
+			quote = *cmd_line;
+			flag = 1;
+			cmd_line++;
+		}
+		if (*cmd_line == quote && flag == 1)
+			flag = 0;
+		cmd_line++;
+	}
+	if (flag == 1)
+		return (0);
+	return (1);
+}
