@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/07 17:48:53 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/07 20:06:50 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,10 @@ typedef struct	s_shell
 /* FUNCTIONS */
 
 /* execution folder */
+
+// env_init.c - initialisation copy of env
+char	**ft_env_dup(char **env);
+
 // 1.1 exec_cmds.c
 void	ft_exec_cmds(t_shell *shell, t_cmd *cmd);
 void	ft_exec_solo_cmd(t_shell *shell, t_cmd *cmd);

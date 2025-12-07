@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 17:26:58 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/07 17:46:11 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/07 18:25:47 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ int main(void)
     
     // 2. Создаем команду echo
     t_cmd *cmd = malloc(sizeof(t_cmd));
-    cmd->args = malloc(sizeof(char *) * 4);
+    cmd->args = malloc(sizeof(char *) * 6);
     cmd->args[0] = ft_strdup("echo");
     cmd->args[1] = ft_strdup("$USER");
     cmd->args[2] = ft_strdup("'$USER'");
-    cmd->args[3] = NULL;
+	cmd->args[3] = ft_strdup("$$");
+	cmd->args[4] = ft_strdup("$?");
+    cmd->args[5] = NULL;
     cmd->builtin = true;
     cmd->redirs = NULL;
     cmd->next = NULL;

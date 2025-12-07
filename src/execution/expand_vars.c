@@ -6,18 +6,13 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 22:27:14 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/07 17:49:06 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/07 20:05:42 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool	ft_is_valid_var_char(int c)
-{
-	if (ft_isalnum(c) || c == '_')
-		return (true);
-	return (false);
-}
+static bool	ft_is_valid_var_char(int c);
 
 int	ft_expand_all_args(t_shell *shell)// main function to expand variables in all commands
 {
@@ -89,4 +84,11 @@ size_t	ft_get_var_name_len(char *arg)
 	while (arg[len] && arg[len] != '=')
 		len++;
 	return (len);
+}
+
+static bool	ft_is_valid_var_char(int c)
+{
+	if (ft_isalnum(c) || c == '_')
+		return (true);
+	return (false);
 }
