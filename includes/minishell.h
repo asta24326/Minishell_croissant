@@ -176,6 +176,7 @@ int			get_pipe_count(char *pipeline);
 // syntax_check.c
 int			is_valid_syntax(char *str);
 int			are_valid_pipes(char *str);
+int			are_closed_quotes(char *copy);
 int			is_valid_redir(char *str);
 
 // syntax_utils.c
