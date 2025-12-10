@@ -170,19 +170,20 @@ void		handle_signal(int signum);
 const char	*get_prompt(void);
 
 // parse_pipeline.c
-void		parse_pipeline(char *pipeline, char **env);
-int			get_pipe_count(char *pipeline);
+int			parse_pipeline(char *pipeline, char **env);
+int			get_pipe_count(char *copy);
+char		*blackout_quoted_content(char *str);
 
 // syntax_check.c
-int			is_valid_syntax(char *pipeline);
+int			is_valid_syntax(char *copy);
 int			are_valid_pipes(char *copy);
 int			are_valid_redirs(char *copy);
 int			are_closed_quotes(char *copy);
 
 // syntax_utils.c
-char		*blackout_quoted_content(char *str);
 int			is_whitespace(char c);
-int			is_token(char c);
+int			is_operator(char c);
+int			is_redir(char c);
 int			is_quote(char c);
 int			is_other(char c);
 
