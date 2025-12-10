@@ -101,6 +101,7 @@ typedef struct	s_cmd
 //	char			*name - no need anymore
 	char			**args;	//changed name
 	int				args_count; //needed for parsing
+	int				redirs_count; //needed for parsing
 	// char			*infile;
 	// char			*outfile;
 	// bool			closed; // false if further input is needed through interaction
