@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/07 20:06:50 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/10 19:50:06 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,12 @@ int			ft_expand_all_args(t_shell *shell);
 char		*ft_expand_arg(t_shell *shell, char *arg);
 char		*ft_expand_env_var(t_shell *shell, char *arg);
 size_t		ft_get_var_name_len(char *arg);
+
+// export.c
+int			ft_export(t_shell *shell, t_cmd *cmd);
+
+// export_utils.c
+char		**ft_sort_env(char **env);
 
 
 /* parsing folder */

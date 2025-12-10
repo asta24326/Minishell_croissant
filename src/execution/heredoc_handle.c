@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 22:51:59 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/06 17:07:29 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/10 19:51:12 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_handle_heredoc(t_shell *shell, t_cmd *cmd, t_redirs *rdrs)
 {
 	char	*line;
 
-	if (!cmd->hdoc_delim || !cmd->hdoc_delim[0]) // if it's NULL, cuz even if it's empty it still should be empty string ""
+	if (!cmd->redirs->hdoc_delim || !cmd->redirs->hdoc_delim[0]) // if it's NULL, cuz even if it's empty it still should be empty string ""
 		return (SUCCESS);
 	if (pipe(rdrs->hdoc_fd) == -1)	// creating PIPE for heredoc
 		return (perror("heredoc pipe failed"), FAILURE);
@@ -30,7 +30,7 @@ int	ft_handle_heredoc(t_shell *shell, t_cmd *cmd, t_redirs *rdrs)
 			ft_putstr_fd("minishell: warning: heredoc EOF\n", 2);
 			break ;
 		}
-		if (ft_strcmp(line, cmd->hdoc_delim) == 0)	// cheking delimeter (w/o env for now)
+		if (ft_strcmp(line, cmd->redirs->hdoc_delim) == 0)	// cheking delimeter (w/o env for now)
 		{
 			free(line);
 			break ;
@@ -64,7 +64,7 @@ void	ft_process_all_heredocs(t_shell *shell)
 	current = shell->cmd;
 	while (current)
 	{
-		if (current->hdoc_delim)
+		if (current->redirs->hdoc_delim)
 			ft_handle_heredoc(shell, current, current->redirs);
 		current = current->next;
 	}
