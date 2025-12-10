@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 13:58:07 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/09 18:12:41 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/10 12:18:26 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,4 @@ int	is_other(char c)
 	if (is_whitespace(c) || is_operator(c) || is_quote(c))
 		return (0);
 	return (1);
-}
-
-// works
-// returns copy of the input str all bytes within quotes set to 0
-// attention: I do not handle non-closed quotes (as discussed)
-char	*blackout_quoted_content(char *str)
-{
-	char	*copy;
-	char	quot_mark;
-	int		i;
-
-	copy = ft_strjoin("", str);		//memory freed in "is_valid_syntax()"
-	quot_mark = 0;
-	i = 0;
-	while (copy[i])
-	{
-		if (is_quote(copy[i]))
-		{
-			quot_mark = copy[i];
-			i++;
-			while (copy[i] && copy[i] != quot_mark)
-			{
-				copy[i] = 48;
-				i++;
-			}
-		}
-		i++;
-	}
-	return (copy);
 }

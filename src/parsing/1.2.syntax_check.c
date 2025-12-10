@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:55:55 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/09 19:28:18 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/10 12:18:00 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	are_valid_pipes(char *copy)
 		else if (*copy == 124)
 		{
 			if (flag == 0)
-				return (printf("Syntax error. Missing command/redir.\n"), false);
+				return (false);
 			flag = 0;
 		}
 		copy++;
@@ -50,10 +50,10 @@ int	are_valid_redirs(char *copy)
 				i++;
 			while (is_whitespace(copy[i]))
 				i++;
-			if (is_quote(copy[i]) && !is_quote(copy[i + 1])) //case:quoted filename/delimiter
+			while (is_quote(copy[i])) //case:quoted filename/delimiter
 				i++;
 			if (!is_other(copy[i])) //MUST be other
-				return (printf("Syntax error. Invalid redir(s).\n"), false);
+				return (false);
 		}
 	}
 	return (true);
@@ -81,18 +81,14 @@ int	are_closed_quotes(char *copy)
 
 // works, no memory leaks
 // checks overall syntax of input pipeline
-int	is_valid_syntax(char *pipeline)
+int	is_valid_syntax(char *copy)
 {
-	char	*copy;
-
-	copy = blackout_quoted_content(pipeline);
 	if (!are_valid_pipes(copy))
-		return (printf("Syntax error. Pipe(s) invalid.\n"), free(copy), false);
+		return (printf("Syntax error. Pipe(s) invalid.\n"), false);
 	if (!are_valid_redirs(copy))
-		return (printf("Syntax error. Redir(s) invalid.\n"), free(copy), false);
+		return (printf("Syntax error. Redir(s) invalid.\n"), false);
 	if (!are_closed_quotes(copy))
-		return (printf("Syntax error. Unclosed quote(s).\n"), free(copy), false);
-	free(copy);
+		return (printf("Syntax error. Unclosed quote(s).\n"), false);
 	return (true);
 }
 

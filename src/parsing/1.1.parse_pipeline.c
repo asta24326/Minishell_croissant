@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 15:06:57 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/04 18:34:16 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/10 12:17:34 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,67 +56,71 @@
 // 	return (0);
 // }
 
-// // attention: this is double >> needs to go out here (or maybe use only once)
-// // works
-// // returns copy of the input str all bytes within quotes set to 0
-// // attention: I do not handle non-closed quotes (as discussed)
-// char	*blackout_quoted_content(char *str)
-// {
-// 	char	*copy;
-// 	char	quot_mark;
-// 	int		i;
 
-// 	copy = ft_strjoin("", str);
-// 	quot_mark = 0;
-// 	i = -1;
-// 	while (copy[++i])
-// 	{
-// 		if (is_quote(copy[i]))
-// 		{
-// 			quot_mark = copy[i];
-// 			i++;
-// 			while (copy[i] && copy[i] != quot_mark)
-// 			{
-// 				copy[i] = 48;
-// 				i++;
-// 			}
-// 		}
-// 	}
-// 	return (copy);
-// }
-
-// works, no memory leaks
-// extracts amount of pipes
-int	get_pipe_count(char *pipeline)
+// works
+// returns copy of the input str all bytes within quotes set to 0
+// attention: I do not handle non-closed quotes (as discussed)
+char	*blackout_quoted_content(char *str)
 {
-	int		count;
-	int		i;
 	char	*copy;
+	char	quot_mark;
+	int		i;
 
-	count = 0;
+	copy = ft_strjoin("", str);
+	quot_mark = 0;
 	i = -1;
-	copy = blackout_quoted_content(pipeline);
 	while (copy[++i])
-		if (copy[i] == 124)
-			count++;
-	free(copy);
-	return (count);
+	{
+		if (is_quote(copy[i]))
+		{
+			quot_mark = copy[i];
+			i++;
+			while (copy[i] && copy[i] != quot_mark)
+			{
+				copy[i] = 48;
+				i++;
+			}
+		}
+	}
+	return (copy);
 }
 
 // works
-// extracts data for the t_shell structure
-void	parse_pipeline(char *pipeline, char **env)
+// extracts amount of pipes
+int	get_pipe_count(char *copy)
 {
-	t_shell	minishell;
+	int		count;
+	int		i;
 
-	if (!is_valid_syntax(pipeline))
-		return (printf("Syntax error.\n"), FAILURE);
-	minishell.pipe_count = get_pipe_count(pipeline);
-	minishell.pipes = NULL; //handled in exec
-	minishell.env = env;
-	create_cmd_list(pipeline, minishell.pipe_count + 1, &minishell);
-	minishell.exit_status = 0;
-	execute(&minishell); //passing to execution
+	count = 0;
+	i = -1;
+	while (copy[++i])
+		if (copy[i] == 124)
+			count++;
+	return (count);
+}
+
+// works, memory leaks
+// extracts data for the t_shell structure
+int	parse_pipeline(char *pipeline, char **env)
+{
+	char	*copy;
+	t_shell	*minishell;
+
+	copy = blackout_quoted_content(pipeline);
+	if (!is_valid_syntax(copy))
+		return (free(copy), FAILURE);
+	minishell = (t_shell *)malloc(sizeof(t_shell));
+	if (!minishell)
+		return (printf("Memory allocation failed.\n"), free(copy), FAILURE);
+	minishell->pipe_count = get_pipe_count(copy);
+	free(copy);
+	minishell->pipes = NULL; //handled in exec
+	minishell->env = env;
+	create_cmd_list(pipeline, minishell->pipe_count + 1, minishell);
+	minishell->exit_status = 0;
+	execute(minishell); //passing to execution
+	return (SUCCESS);
 }
 
 // ----------for testing only-----------------------
