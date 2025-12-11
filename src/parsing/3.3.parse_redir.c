@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 14:18:25 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/08 17:56:28 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:08:00 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,4 +146,75 @@ int	main(void)
 	// while (++i < 4)
 	// 	printf("arr[%i]: %s\n", i, arr[i]);
 	return (0);
+}
+
+
+// typedef struct	s_redirs
+// {
+// 	int		in_fd;
+// 	int		out_fd;
+// 	char	*hdoc_delim;
+// 	bool	exp_hdoc; // no - if heredoc delimeter has '  ', yes - if none
+// 	int		hdoc_fd[2]; // on exec step
+// }	t_redirs;
+
+
+t_redirs	*extract_redir_data(char *cmd_line)
+{
+	t_redirs	*redirs;
+
+	redirs = (t_redirs *)malloc(sizeof(t_redirs));
+	if (!redirs)
+		return (printf("Memory allocation failed.\n"), NULL);
+	in_fd =
+	out_fd =
+	hdoc_delim =
+	exp_hdoc =
+	hdoc_fd = NULL; //handled in exec
+	return (redirs);
+}
+
+// works
+// handles the redir depending on the type
+void	handle_redir(char *str, t_cmd *cmd)
+{
+	if (str[0] == '>' && str[1] != '>')
+		printf("outfile!\n");
+	else if (str[0] == '>' && str[1] == '>')
+		printf("append\n");
+	else if (str[0] == '<' && str[1] != '<')
+		printf("infile\n");
+	else if (str[0] == '<' && str[1] == '<')
+		printf("heredoc\n"); //done by Aidar
+}
+
+// works
+// returns length of redirection token
+int	get_redir_len(char *str)
+{
+	int		len;
+	char	*copy;
+
+	len = 1; //skip the (first) redir sign
+	copy = blackout_quoted_content(str);
+	if (copy[len] == copy[len - 1]) //case: double arrow
+		len++;
+	while (is_whitespace(copy[len])) //case:whitespaces in between
+		len++;
+	while (!is_operator(copy[len]) && !is_whitespace(copy[len]))
+		while (is_quote(copy[len]) || is_other(copy[len]))
+			len++;
+	free (copy);
+	return (len);
+}
+
+// here, we look into single redirs
+// returns index after the redir token
+int	parse_redir(char *str, t_cmd *cmd)
+{
+	int	index;
+
+	index = get_redir_len(str);
+	handle_redir(str, cmd);
+	return (index);
 }

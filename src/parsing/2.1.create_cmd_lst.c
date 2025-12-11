@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 17:40:26 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/09 17:22:59 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:05:33 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,11 +258,11 @@ t_cmd	*create_node(char *cmd_line)
 
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new)
-		return (printf("Error with node creation.\n"), NULL);
-	//extracts char **args and int args_count;
+		return (printf("Memory allocation failed.\n"), NULL);
+	//extracts char **args, int args_count, int redirs_count
 	create_args_arr(cmd_line, new);
 	new->builtin = is_builtin_cmd(new);
-	// new->redirs = extract_redir_data(cmd_line); //will be handled in parse_redir - TODO
+	new->redirs = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -313,7 +313,7 @@ void	create_cmd_list(char *pipeline, int cmd_count, t_shell *minishell)
 		add_node(&list, create_node(arr[i]));
 	// print_list(list);
 	minishell->cmd = list;
-	//free arr here?
+	//free arr here? - yes
 }
 
 // ----------for testing only-----------------------

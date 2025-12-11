@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 19:37:46 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/09 19:29:57 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/10 17:27:53 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	create_args_arr(char *cmd_str, t_cmd *cmd)
 
 	copy = blackout_quoted_content(cmd_str);
 	cmd->args_count = get_arg_count(copy);
+	cmd->redirs_count = get_redir_count(copy);
 	// calloc needed as single strings are not filled immediatly
 	cmd->args = ft_calloc(cmd->args_count + 1, sizeof(char *)); //attention: memory allocation
 	tokenize(cmd_str, cmd);

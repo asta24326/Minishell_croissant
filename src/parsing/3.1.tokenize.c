@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 17:33:40 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/08 17:48:43 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:05:50 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	tokenize(char *cmd_str, t_cmd *cmd)
 		if (is_quote(*cmd_str) || is_other(*cmd_str))
 			cmd_str += parse_cmd(cmd_str, cmd);
 		// works because at this point, the pipe operators were taken out already
-		else if (is_operator(*cmd_str))
+		else if (is_redir(*cmd_str))
 			cmd_str += parse_redir(cmd_str, cmd);
 		else
 			cmd_str += 1;
