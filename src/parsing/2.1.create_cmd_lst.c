@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 17:40:26 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/10 18:05:33 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:56:49 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,7 @@ t_cmd	*create_node(char *cmd_line)
 	//extracts char **args, int args_count, int redirs_count
 	create_args_arr(cmd_line, new);
 	new->builtin = is_builtin_cmd(new);
+	// new->redirs = extract_redirs(cmd_line, new);
 	new->redirs = NULL;
 	new->next = NULL;
 	return (new);
