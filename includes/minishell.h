@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/13 21:58:49 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/15 12:42:26 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct	s_cmd
 /* main data storage */
 typedef struct	s_shell
 {
+	char	*prompt;
 	int		pipe_count;
 	int		**pipes;
 	char	**env;
@@ -184,14 +185,9 @@ int			ft_env(t_shell *shell, t_cmd *cmd);
 /* parsing folder */
 
 // minishell_initialization.c
-int			init_minishell(t_shell *minishell);
+int			init_minishell(char **env);
 void		handle_signal(int signum);
 const char	*get_prompt(void);
-
-// signal_handling.c
-void		setup_signals(void (*signal_handler)(int));
-void		handle_signal_parent(int signum);
-void		handle_signal_child(int signum);
 
 // parse_pipeline.c
 int			parse_pipeline(char *pipeline, char **env);
