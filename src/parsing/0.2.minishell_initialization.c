@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:13:31 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/09 17:34:42 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/15 12:00:18 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,49 +113,15 @@
 // ---------------  libft functions - end!  --------------
 
 // works
-// returns the entire prompt for the shell to ask for user input (e.g. kschmitt@c4b10c4:~$ )
-const char	*get_prompt(void)
-{
-	char		*first_part;
-	char		*sec_part;
-	const char	*prompt;
-
-	first_part = ft_strjoin(getenv("USER"), "@");
-	sec_part = ft_strjoin(ft_substr(getenv("SESSION_MANAGER"), 6, 7), ":~$ ");
-	prompt = ft_strjoin(first_part, sec_part); //attention: memory allocation
-	free(first_part);
-	free(sec_part);
-	return (prompt);
-}
-
-// handles 'ctrl-c' - works
-void	handle_signal(int signum)
-{
-	// 'ctrl-c': displays a new prompt on command line
-	if (signum == 2)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	return ;
-}
-
-// ---for TESTING----
-// void	parse(char *input_str, t_shell *minishell, char **env)
-// {
-// 	printf("parsing! NOW!\n");
-// }
-
-// works
 // sets the prompt, reads the user input and saves it into a char *buffer
 // creates and continously adds to history if input is non-empty
-int	init_minishell(char **env)
+int	init_minishell(t_shell *minishell)
 {
+	const char	*prompt;
 	static char	*input_str;
 
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);
+	prompt = ft_strjoin(getenv("USER"), "@minishell: ");
+	setup_signals(handle_signal_parent);
 	while (1)
 	{
 		if (input_str)
@@ -163,18 +129,16 @@ int	init_minishell(char **env)
 			free(input_str);
 			input_str = NULL;
 		}
-		input_str = readline(get_prompt());
-// exits in case of ctrl-D
-		if (!input_str)
+		input_str = readline(prompt);
+		if (!input_str)// exits in case of ctrl-D
 		{
 			printf("exit\n");
 			exit(1);
 		}
 		if (*input_str)
 		{
-			parse_pipeline(input_str, env);
-			// adds user input to history (attention, history needs to be freed at end of program runtime)
-			add_history(input_str);
+			parse_pipeline(input_str, minishell); //what if this one fails?
+			add_history(input_str);// adds user input to history
 		}
 	}
 	return (0);

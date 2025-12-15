@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:49:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/08 17:56:31 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/11 19:27:33 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	get_arg_len(char *str)
 }
 
 // works
-// loops through cmd/flag/arg/env_arg and returns index after quote
+// loops through cmd/flag/arg/env_arg and returns index after last byte
 int	parse_cmd(char *str, t_cmd *cmd)
 {
 	int		index;

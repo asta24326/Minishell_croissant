@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0.1.main.c                                         :+:      :+:    :+:   */
+/*   0.fail_faster.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/23 15:34:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/15 11:39:59 by kschmitt         ###   ########.fr       */
+/*   Created: 2025/12/12 17:09:10 by kschmitt          #+#    #+#             */
+/*   Updated: 2025/12/12 17:13:42 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include <stdio.h>
 
-int	main(int ac, char **av, char **env)
+void	handle_quotes(char **arr, char *str) // needs to be linked to t_cmd args
 {
-	t_shell	*shell;
-	(void)ac;
-	(void)av;
+	int	i;
 
-	shell = malloc(sizeof(t_shell));
-	shell->env = ft_env_dup(env);
-	if (!init_minishell(shell))
-		return (printf("Error with initialization.\n"), 1);
-	return (0);
+	i = -1;
+	if (arr)
+	{
+		while (arr[++i])
+			printf("arr!\n");
+	}
+	else
+		printf("str\n");
+}
+
+int	main(void)
+{
+	char	*str;
+
+	str = "hello\n";
+	handle_quotes(NULL, str);
 }

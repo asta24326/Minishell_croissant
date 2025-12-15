@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 17:33:40 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/10 18:05:50 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:03:01 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,5 @@ void	tokenize(char *cmd_str, t_cmd *cmd)
 		else
 			cmd_str += 1;
 	}
+	//here, I could clean up the t_redirs (only 1 per direction)
 }

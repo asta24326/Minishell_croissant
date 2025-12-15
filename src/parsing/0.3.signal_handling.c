@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:18:03 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/12 11:49:08 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/15 11:52:38 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	handle_signal_parent(int signum)
 	(void)signum;
 	printf("\n");
 	rl_on_new_line();//updates about jump to next line
-	rl_replace_line("", 0);//clears current buffer
+	// rl_replace_line("", 0);//clears current buffer //not needed
 	rl_redisplay();//refreshes readline prompt
 	return ;
 }

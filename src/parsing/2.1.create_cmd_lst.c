@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 17:40:26 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/11 17:56:49 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/12 13:03:26 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,8 +259,7 @@ t_cmd	*create_node(char *cmd_line)
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new)
 		return (printf("Memory allocation failed.\n"), NULL);
-	//extracts char **args, int args_count, int redirs_count
-	create_args_arr(cmd_line, new);
+	create_args_arr(cmd_line, new);//extracts char **args, int args_count, int redirs_count
 	new->builtin = is_builtin_cmd(new);
 	// new->redirs = extract_redirs(cmd_line, new);
 	new->redirs = NULL;
@@ -304,17 +303,14 @@ void	create_cmd_list(char *pipeline, int cmd_count, t_shell *minishell)
 	t_cmd	*list;
 	int		i;
 
-	// splits the pipeline into its cmd-lines
-	arr = ft_split(pipeline, 124); //memory allocation
-	// initiates the list, creates first node with entire cmd line
-	list = create_node(arr[0]);
+	arr = ft_split(pipeline, 124);//splits the pipeline into its cmd-lines
+	list = create_node(arr[0]);//initiates the list, creates first node
 	i = 0;
-	// creates entire list by passing 1 cmd-line per node
-	while (++i < cmd_count)
+	while (++i < cmd_count) //creates entire list by passing 1 cmd-line per node
 		add_node(&list, create_node(arr[i]));
 	// print_list(list);
 	minishell->cmd = list;
-	//free arr here? - yes
+	clean(arr, cmd_count);
 }
 
 // ----------for testing only-----------------------

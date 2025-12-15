@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 15:06:57 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/10 12:17:34 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:56:27 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,21 @@ int	get_pipe_count(char *copy)
 	return (count);
 }
 
-// works, memory leaks
+// works, no memory leaks
 // extracts data for the t_shell structure
-int	parse_pipeline(char *pipeline, char **env)
+int	parse_pipeline(char *pipeline, t_shell *minishell)
 {
 	char	*copy;
-	t_shell	*minishell;
 
 	copy = blackout_quoted_content(pipeline);
 	if (!is_valid_syntax(copy))
 		return (free(copy), FAILURE);
-	minishell = (t_shell *)malloc(sizeof(t_shell));
-	if (!minishell)
-		return (printf("Memory allocation failed.\n"), free(copy), FAILURE);
 	minishell->pipe_count = get_pipe_count(copy);
 	free(copy);
-	minishell->pipes = NULL; //handled in exec
-	minishell->env = env;
+	minishell->pipes = NULL;//handled in exec
 	create_cmd_list(pipeline, minishell->pipe_count + 1, minishell);
 	minishell->exit_status = 0;
-	execute(minishell); //passing to execution
+	execute(minishell);//passing to execution
 	return (SUCCESS);
 }
 
