@@ -1,33 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/13 00:57:12 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/14 18:37:50 by aidarsharaf      ###   ########.fr       */
+/*   Created: 2025/12/14 21:31:01 by aidarsharaf       #+#    #+#             */
+/*   Updated: 2025/12/14 21:33:02 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_env(t_shell *shell, t_cmd *cmd)
+size_t	ft_get_var_name_len(char *arg)
 {
-	int	i;
+	size_t	len;
 
-	(void)cmd;
+	len = 0;
+	while (arg[len] && arg[len] != '=')
+		len++;
+	return (len);
+}
 
-	if (!shell->env)
-		return (FAILURE);
+char	*ft_expand_env_var(t_shell *shell, char *arg)
+{
+	int		i;
+	size_t	var_name_len;
+	char	*result;
+
+	var_name_len = ft_get_var_name_len(arg + 1);
 	i = -1;
 	while (shell->env[++i])
 	{
-		if (ft_strchr(shell->env[i], '='))
+		if (ft_strncmp(shell->env[i], arg + 1, var_name_len) == 0
+			&& shell->env[i][var_name_len] == '=')
 		{
-				ft_putstr_fd(shell->env[i], 1);
-				ft_putstr_fd("\n", 1);
+			result = ft_strdup(ft_strchr(shell->env[i], '=') + 1);
+			return (result);
 		}
 	}
-	return (SUCCESS);
+	return (ft_strdup(""));
 }

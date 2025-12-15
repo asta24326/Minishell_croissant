@@ -6,11 +6,15 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 01:15:04 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/13 21:57:57 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/14 22:43:20 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static bool	ft_is_valid_exit_arg(t_shell *shell, t_cmd *cmd);
+static bool	ft_is_numeric_str(char *arg);
+static long	ft_get_exit_code(char *arg);
 
 int	ft_exit(t_shell *shell, t_cmd *cmd)
 {

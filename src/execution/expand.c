@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_vars.c                                      :+:      :+:    :+:   */
+/*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 22:27:14 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/07 20:05:42 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/14 21:46:53 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,31 @@
 
 static bool	ft_is_valid_var_char(int c);
 
-int	ft_expand_all_args(t_shell *shell)// main function to expand variables in all commands
+int	ft_expand_hdoc_delims(t_shell *shell)
+{
+	t_cmd	*curr_cmd;
+	char	*expanded;
+
+	curr_cmd = shell->cmd;
+	while (curr_cmd)
+	{
+		if (curr_cmd->redirs->hdoc_delim && curr_cmd->redirs->hdoc_delim)
+		{
+			if (curr_cmd->redirs->exp_hdoc == true)
+			{
+				expanded = ft_expand_arg(shell, curr_cmd->redirs->hdoc_delim);
+				if (!expanded)
+					return (FAILURE);
+				free(curr_cmd->redirs->hdoc_delim);
+				curr_cmd->redirs->hdoc_delim = expanded;
+			}
+		}
+		curr_cmd = curr_cmd->next;
+	}
+	return (SUCCESS);
+}
+
+int	ft_expand_cmd_args(t_shell *shell)// main function to expand variables in all commands
 {
 	t_cmd	*curr_cmd;
 	int		i;
@@ -54,36 +78,6 @@ char	*ft_expand_arg(t_shell *shell, char *arg)
 		return (ft_strdup(arg));
 	}
 	return (ft_strdup(arg));
-}
-
-char	*ft_expand_env_var(t_shell *shell, char *arg)
-{
-	int		i;
-	size_t	var_name_len;
-	char	*result;
-
-	var_name_len = ft_get_var_name_len(arg + 1);
-	i = -1;
-	while (shell->env[++i])
-	{
-		if (ft_strncmp(shell->env[i], arg + 1, var_name_len) == 0
-			&& shell->env[i][var_name_len] == '=')
-		{
-			result = ft_strdup(ft_strchr(shell->env[i], '=') + 1);
-			return (result);
-		}
-	}
-	return (ft_strdup(""));
-}
-
-size_t	ft_get_var_name_len(char *arg)
-{
-	size_t	len;
-
-	len = 0;
-	while (arg[len] && arg[len] != '=')
-		len++;
-	return (len);
 }
 
 static bool	ft_is_valid_var_char(int c)

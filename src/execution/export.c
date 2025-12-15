@@ -6,17 +6,11 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:29:54 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/13 00:45:14 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/14 22:42:15 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-/*
-	What export does:
-	- Sets environment variables for the current shell and child processes
-	- Without arguments: Prints all exported variables
-	- With arguments: Sets variables in format NAME=value
-*/
 
 static int		ft_set_var(t_shell *shell, char *var);
 static int		ft_add_new_var(t_shell *shell, char *var);

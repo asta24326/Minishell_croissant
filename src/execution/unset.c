@@ -6,11 +6,13 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 20:41:32 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/13 00:44:40 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/14 19:41:53 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	ft_remove_var(t_shell *shell, char *var);
 
 int	ft_unset(t_shell *shell, t_cmd *cmd)
 {

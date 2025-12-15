@@ -6,71 +6,14 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:28:23 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/11/30 22:23:44 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/14 18:37:36 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*ft_strjoin_three(char *key, char *value)
-{
-	char	*temp;
-	char	*res;
-
-	temp = ft_strjoin(key, "=");
-	if (!temp)
-		return (perror("cd: env update failed"), NULL);
-	res = ft_strjoin(temp, value);
-	if (!res)
-		return (perror("cd: env update failed"), NULL);
-	free(temp);
-	return (res);
-}
-
-static int	ft_set_cd_vars(t_shell *shell, char *key, char *value)
-{
-	char	*new_var;
-	int		i;
-
-	new_var = ft_strjoin_three(key, value);
-	i = 0;
-	while (shell->env[i])// check if variable already exists
-	{
-		if (ft_strncmp(shell->env[i], key, ft_strlen(key)) == 0
-			&& shell->env[i][ft_strlen(key)] == '=') //make sure that it starts with out key fully and closed with "="
-		{
-			free(shell->env[i]);//free the spot
-			shell->env[i] = new_var;
-			return (SUCCESS);
-		}
-		i++;//if it doesn't exist, then we'll reach the very end
-	}
-	if (ft_create_cd_arg(shell, new_var) == FAILURE)
-		return (free(new_var), FAILURE);
-	return (SUCCESS);
-}
-
-int	ft_create_cd_arg(t_shell *shell, char *new_var)
-{
-	char	**new_env;
-	int		env_len;
-	int		i;
-
-	env_len = 0;
-	while (shell->env[env_len])
-		env_len++;
-	new_env = malloc(sizeof(char *) * (env_len + 2));// to add new_var and NULL
-	if (!new_env)
-		return (FAILURE);
-	i = -1;
-	while (shell->env[++i])
-		new_env[i] = shell->env[i];// copy old env vars
-	new_env[i] = new_var;
-	new_env[i + 1] = NULL;
-	free(shell->env);
-	shell->env = new_env;
-	return (SUCCESS);
-}
+static int	ft_set_cd_vars(t_shell *shell, char *key, char *value);
+static char	*ft_strjoin_three(char *key, char *value);
 
 int	ft_cd(t_shell *shell, t_cmd *cmd)
 {
@@ -99,4 +42,64 @@ int	ft_cd(t_shell *shell, t_cmd *cmd)
 	if (cmd->args[1] && ft_strcmp(cmd->args[1], "-") == 0)
 		printf("%s\n", new_pwd);
 	return (SUCCESS);
+}
+
+int	ft_create_cd_arg(t_shell *shell, char *new_var)
+{
+	char	**new_env;
+	int		env_len;
+	int		i;
+
+	env_len = 0;
+	while (shell->env[env_len])
+		env_len++;
+	new_env = malloc(sizeof(char *) * (env_len + 2));// to add new_var and NULL
+	if (!new_env)
+		return (FAILURE);
+	i = -1;
+	while (shell->env[++i])
+		new_env[i] = shell->env[i];// copy old env vars
+	new_env[i] = new_var;
+	new_env[i + 1] = NULL;
+	free(shell->env);
+	shell->env = new_env;
+	return (SUCCESS);
+}
+
+static int	ft_set_cd_vars(t_shell *shell, char *key, char *value)
+{
+	char	*new_var;
+	int		i;
+
+	new_var = ft_strjoin_three(key, value);
+	i = 0;
+	while (shell->env[i])// check if variable already exists
+	{
+		if (ft_strncmp(shell->env[i], key, ft_strlen(key)) == 0
+			&& shell->env[i][ft_strlen(key)] == '=') //make sure that it starts with out key fully and closed with "="
+		{
+			free(shell->env[i]);//free the spot
+			shell->env[i] = new_var;
+			return (SUCCESS);
+		}
+		i++;//if it doesn't exist, then we'll reach the very end
+	}
+	if (ft_create_cd_arg(shell, new_var) == FAILURE)
+		return (free(new_var), FAILURE);
+	return (SUCCESS);
+}
+
+static char	*ft_strjoin_three(char *key, char *value)
+{
+	char	*temp;
+	char	*res;
+
+	temp = ft_strjoin(key, "=");
+	if (!temp)
+		return (perror("cd: env update failed"), NULL);
+	res = ft_strjoin(temp, value);
+	if (!res)
+		return (perror("cd: env update failed"), NULL);
+	free(temp);
+	return (res);
 }
