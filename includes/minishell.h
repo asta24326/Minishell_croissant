@@ -91,6 +91,7 @@
 /* redirections struct */
 typedef struct	s_redirs
 {
+	char	**list; //needed for parsing
 	int		in_fd;
 	int		out_fd;
 	char	*hdoc_delim;
