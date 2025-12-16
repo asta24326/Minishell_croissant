@@ -94,6 +94,7 @@ typedef struct	s_redirs
 	char	**list; //needed for parsing
 	int		in_fd;
 	int		out_fd;
+	int		append_fd; //added
 	char	*hdoc_delim;
 	bool	exp_hdoc; // no - if heredoc delimeter has '  ', yes - if none
 	int		hdoc_fd[2]; // on exec step
@@ -103,6 +104,7 @@ typedef struct	s_redirs
 typedef struct	s_cmd
 {
 //	char			*name - no need anymore
+	int				index; //needed for redirs handling (parsing)
 	char			**args;	//changed name
 	int				args_count; //needed for parsing
 	int				redirs_count; //needed for parsing
