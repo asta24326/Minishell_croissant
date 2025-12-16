@@ -199,10 +199,8 @@ void		handle_signal_child(int signum);
 // minishell_termination.c
 void		end_minishell(t_shell *minishell);
 
-// parse_pipeline.c
-int			parse_pipeline(char *pipeline, t_shell *minishell);
-int			get_pipe_count(char *copy);
-char		*blackout_quoted_content(char *str);
+// parsing.c
+int			parse(char *pipeline, t_shell *minishell);
 
 // syntax_check.c
 int			is_valid_syntax(char *copy);
@@ -217,26 +215,59 @@ int			is_redir(char c);
 int			is_quote(char c);
 int			is_other(char c);
 
+// parse_pipeline.c
+int			parse_pipeline(char *copy, t_shell *minishell);
+int			get_pipe_count(char *copy);
+char		*blackout_quoted_content(char *str);
+
+// parse_cmd_line.c
+void		parse_cmd_lines(char *pipeline, int cmd_count, t_shell *minishell);
+
 // create_cmd_lst.c
-void		create_cmd_list(char *pipeline, int cmd_count, t_shell *minishell);
+void		create_cmd_list(char **arr, int cmd_count, t_shell *minishell);
 void		add_node(t_cmd **list, t_cmd *new);
 t_cmd		*create_node(char *cmd_line);
+void		set_index(t_cmd *stack, int cmd_count);
 
-// create_args_arr.c
-void		create_args_arr(char *cmd_str, t_cmd *cmd);
-void		fill_args_arr(char *arg_str, t_cmd *cmd);
+// prepare_args_arr.c
+void		prepare_args_arr(char *cmd_str, t_cmd *cmd);
 int			get_arg_count(char *copy);
 int			get_redir_count(char *copy);
+
+//prepare_redirs.c
+int			prepare_redirs(char *cmd_str, t_cmd *cmd);
+int			get_hdoc_count(char *cmd_str);
 
 // tokenize.c
 void		tokenize(char *cmd_str, t_cmd *cmd);
 
-// parse_quote.c
-int			parse_quote(char *str, t_cmd *cmd);
-int			get_quot_len(char *str, char quot_mark, int *env_arg);
-
 //parse_cmd.c
 int			parse_cmd(char *str, t_cmd *cmd);
 int			get_arg_len(char *str);
+void		fill_args_arr(char *arg_str, t_cmd *cmd);
+
+//parse_redir.c
+int			parse_redir(char *cmd_str, t_cmd *cmd);
+void		prepare_hdoc(char *cmd_str, t_redirs *redirs, int len);
+char		*get_delimiter(char *cmd_str, int ops, int len);
+int			get_redir_len(char *str);
+void		fill_redirs_arr(char *redirect, t_cmd *cmd);
+
+//handle_quotes.c
+void		cleanup_quotes(char **arr);
+char		*get_clean_str(char *orig_str);
+int			get_strlen_clean(char *orig_str);
+
+//check_builtin_cmds.c
+int			is_builtin_cmd(t_cmd *cmd);
+
+//handle_redirs.c
+int			handle_redirs(t_cmd *cmd);
+char		*get_filename(char *redir_str, int ops);
+int			handle_infile(char *filename, t_cmd *cmd);
+int			handle_append(char *filename, t_cmd *cmd);
+int			handle_outfile(char *filename, t_cmd *cmd);
+
+
 
 #endif
