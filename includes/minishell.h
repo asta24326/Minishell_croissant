@@ -95,6 +95,7 @@ typedef struct	s_redirs
 	int		in_fd;
 	int		out_fd;
 	int		append_fd; //added
+	int		hdoc_count; //added
 	char	*hdoc_delim;
 	bool	exp_hdoc; // no - if heredoc delimeter has '  ', yes - if none
 	int		hdoc_fd[2]; // on exec step
