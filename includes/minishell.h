@@ -201,6 +201,7 @@ void		end_minishell(t_shell *minishell);
 
 // parsing.c
 int			parse(char *pipeline, t_shell *minishell);
+char		*blackout_quoted_content(char *str);
 
 // syntax_check.c
 int			is_valid_syntax(char *copy);
@@ -215,10 +216,9 @@ int			is_redir(char c);
 int			is_quote(char c);
 int			is_other(char c);
 
-// parse_pipeline.c
-int			parse_pipeline(char *copy, t_shell *minishell);
+// prepare_parsing.c
+void		prepare_parsing(char *copy, t_shell *minishell);
 int			get_pipe_count(char *copy);
-char		*blackout_quoted_content(char *str);
 
 // parse_cmd_line.c
 void		parse_cmd_lines(char *pipeline, int cmd_count, t_shell *minishell);
