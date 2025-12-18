@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:55:17 by asharafe          #+#    #+#             */
-/*   Updated: 2025/12/07 17:43:11 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/18 11:10:06 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,8 @@ char	*ft_extract_line(char **cache_update, char *cache, char *n_address);
 char	*ft_read_results(char **cache, char **buffer, ssize_t read_bytes);
 char	*ft_merge_read(char **cache, char **buffer, size_t read_bytes);
 void	*ft_full_free_gnl(char **cache, char **buffer);
+
+/* addition kristin */
+void	ft_free_arr(char **arr_split);
 
 #endif
