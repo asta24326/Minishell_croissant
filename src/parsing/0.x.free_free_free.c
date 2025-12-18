@@ -6,22 +6,9 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:02:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/15 16:14:30 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 11:19:21 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-/* main data storage */
-typedef struct	s_shell
-{
-	char	*prompt;		//program run time
-	int		pipe_count;		//always set to NULL per default and at end of execution
-	int		**pipes;		//always set to NULL per default and at end of execution
-	char	**env;			//program run time
-	t_cmd	*cmd;			//always set to NULL per default and at end of execution
-	int		exit_status;	//program run time
-	pid_t	shell_pid;		//program run time
-}	t_shell;
 
 
 /* to be freed at end of program runtime */

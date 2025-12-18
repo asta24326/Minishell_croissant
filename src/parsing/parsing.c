@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 17:29:02 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/17 17:48:00 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:07:49 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*blackout_quoted_content(char *str)
 }
 
 // works
+// checks syntax, prepares structs, kicksoff parsing on cmd line level
 int	parse(char *pipeline, t_shell *minishell)
 {
 	char	*copy;
@@ -51,8 +52,8 @@ int	parse(char *pipeline, t_shell *minishell)
 		return (free(copy), FAILURE);
 	prepare_parsing(copy, minishell);
 	free(copy);
-	parse_cmd_lines(pipeline, minishell->pipe_count + 1, minishell); //error handling
-	// printf("[parse] %s\n", minishell->cmd->args[0]);
+	if (parse_cmd_lines(pipeline, minishell->pipe_count + 1, minishell))
+		return (FAILURE);
 	// print_list(minishell->cmd, minishell->pipe_count + 1);
 	return (SUCCESS);
 }

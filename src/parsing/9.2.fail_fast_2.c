@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 19:13:02 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/17 17:52:47 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 13:25:44 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,258 +313,270 @@
 // 	return (copy);
 // }
 
-// works
-// returns length of redirection token
-int	get_redir_len(char *str)
-{
-	int		len;
-	char	*copy;
+// // works
+// // returns length of redirection token
+// int	get_redir_len(char *str)
+// {
+// 	int		len;
+// 	char	*copy;
 
-	len = 1; //skip the (first) redir sign
-	copy = blackout_quoted_content(str);
-	if (!copy)
-		return (perror("blackout_quoted_content"), FAILURE);
-	if (copy[len] == copy[len - 1]) //case: double arrow
-		len++;
-	while (is_whitespace(copy[len])) //case:whitespaces in between
-		len++;
-	while (copy[len] && (is_quote(copy[len]) || is_other(copy[len])))
-		len++;
-	free (copy);
-	return (len);
-}
+// 	len = 1; //skip the (first) redir sign
+// 	copy = blackout_quoted_content(str);
+// 	if (!copy)
+// 		return (perror("blackout_quoted_content"), -1);
+// 	if (copy[len] == copy[len - 1]) //case: double arrow
+// 		len++;
+// 	while (is_whitespace(copy[len])) //case:whitespaces in between
+// 		len++;
+// 	while (copy[len] && (is_quote(copy[len]) || is_other(copy[len])))
+// 		len++;
+// 	free (copy);
+// 	return (len);
+// }
 
-// works
-// includes the redirs/heredoc into the redirs->list
-void	fill_redirs_arr(char *redirect, t_cmd *cmd)
-{
-	static int	i; // needed because of repeated call
+// // works
+// // includes the redirs/heredoc into the redirs->list
+// void	fill_redirs_arr(char *redirect, t_cmd *cmd)
+// {
+// 	static int	i; // needed because of repeated call
 
-	cmd->redirs->list[i] = redirect;
-	i++;
-	if (i == cmd->redirs_count) // NULL-terminate array and reset i to 0 when all cmds were handled
-	{
-		cmd->redirs->list[i] = NULL;
-		i = 0;
-	}
-}
+// 	cmd->redirs->list[i] = redirect;
+// 	i++;
+// 	if (i == cmd->redirs_count) // NULL-terminate array and reset i to 0 when all cmds were handled
+// 	{
+// 		cmd->redirs->list[i] = NULL;
+// 		i = 0;
+// 	}
+// }
 
-char	*get_delimiter(char *cmd_str, int ops, int len)
-{
-	int	i;
-	int	whitespaces;
+// char	*get_delimiter(char *cmd_str, int len)
+// {
+// 	int	skip;
 
-	i = ops - 1;//jump over hdoc operator signs
-	whitespaces = 0;
-	while (is_whitespace(cmd_str[++i]))
-		whitespaces += 1;
-	return (ft_substr(cmd_str, ops + whitespaces, len - ops - whitespaces));
-}
+// 	skip = 0;
+// 	while (is_redir(cmd_str[skip]) || is_whitespace(cmd_str[skip]))
+// 		skip += 1;
+// 	return (ft_substr(cmd_str, skip, len - skip));
+// }
 
-void	prepare_hdoc(char *cmd_str, t_redirs *redirs, int len)
-{
-	static int	nbr_hdoc;
+// int	prepare_hdoc(char *cmd_str, t_redirs *redirs, int len)
+// {
+// 	static int	nbr_hdoc;
 
-	nbr_hdoc += 1;
-	if (nbr_hdoc == redirs->hdoc_count)
-	{
-		redirs->hdoc_delim = get_delimiter(cmd_str, 2, len);
-		if (!redirs->hdoc_delim)
-			return (perror("get_delimiter"), FAILURE);
-		nbr_hdoc = 0;
-	}
-}
+// 	nbr_hdoc += 1;
+// 	if (nbr_hdoc == redirs->hdoc_count)
+// 	{
+// 		redirs->hdoc_delim = get_delimiter(cmd_str, len);
+// 		if (!redirs->hdoc_delim)
+// 			return (perror("get_delimiter"), FAILURE);
+// 		nbr_hdoc = 0;
+// 	}
+// 	return (SUCCESS);
+// }
 
-// works
-// here, we look into single redirs
-// returns index after the redir token
-int	parse_redir(char *cmd_str, t_cmd *cmd)
-{
-	int		index;
-	char	*redirect;
+// // works
+// // here, we look into single redirs
+// // returns index after the redir token
+// int	parse_redir(char *cmd_str, t_cmd *cmd)
+// {
+// 	int		index;
+// 	char	*redirect;
 
-	index = get_redir_len(cmd_str);
-	if (cmd_str[0] == '<' && cmd_str[1] == '<') //case: heredoc
-		prepare_hdoc(cmd_str, cmd->redirs, index);
-	else
-	{
-		redirect = ft_substr(cmd_str, 0, index); //attention: memory allocation
-		fill_redirs_arr(redirect, cmd);
-	}
-	return (index);
-}
+// 	index = get_redir_len(cmd_str);
+// 	if (index > 0)
+// 	{
+// 		if (cmd_str[0] == '<' && cmd_str[1] == '<') //case: heredoc
+// 			if (prepare_hdoc(cmd_str, cmd->redirs, index))
+// 				return (perror("parse_redir, hdoc"), -1);
+// 		else //case: redir
+// 		{
+// 			redirect = ft_substr(cmd_str, 0, index);
+// 			if (!redirect)
+// 				return (perror("parse_redir, redir"),
+// 					ft_free_arr(cmd->redirs->list), -1);
+// 			fill_redirs_arr(redirect, cmd);
+// 		}
+// 	}
+// 	return (index);
+// }
 
-// works
-// returns length of cmd/flag/arg/env_arg
-int	get_arg_len(char *str)
-{
-	int		len;
-	char	quot_mark;
+// // works
+// // returns length of cmd/flag/arg/env_arg
+// int	get_arg_len(char *str)
+// {
+// 	int		len;
+// 	char	quot_mark;
 
-	len = 0;
-	while (str[len])
-	{
-		if (is_quote(str[len]))
-		{
-			quot_mark = str[len];
-			len += 1;
-			while (str[len] && str[len] != quot_mark)
-				len += 1;
-			len += 1;
-		}
-		else if (is_other(str[len]))
-			while (str[len] && !is_whitespace(str[len])
-				&& !is_operator(str[len]) && !is_quote(str[len]))
-				len += 1;
-	}
-	return (len);
-}
+// 	len = 0;
+// 	while (str[len])
+// 	{
+// 		if (is_quote(str[len]))
+// 		{
+// 			quot_mark = str[len];
+// 			len += 1;
+// 			while (str[len] && str[len] != quot_mark)
+// 				len += 1;
+// 			len += 1;
+// 		}
+// 		else if (is_other(str[len]))
+// 			while (str[len] && !is_whitespace(str[len])
+// 				&& !is_operator(str[len]) && !is_quote(str[len]))
+// 				len += 1;
+// 	}
+// 	return (len);
+// }
 
-// works
-// includes the cmd/flag/arg/env_arg into the args_array
-// attention, this will be called repeatedly as soon as arg is encountered
-void	fill_args_arr(char *arg, t_cmd *cmd)
-{
-	static int	i; // needed because of repeated call
+// // works
+// // includes the cmd/flag/arg/env_arg into the args_array
+// // attention, this will be called repeatedly as soon as arg is encountered
+// void	fill_args_arr(char *arg, t_cmd *cmd)
+// {
+// 	static int	i; // needed because of repeated call
 
-	cmd->args[i] = arg;
-	i++;
-	if (i == cmd->args_count) // NULL-terminate array and reset i to 0 when all cmds were handled
-	{
-		cmd->args[i] = NULL;
-		i = 0;
-	}
-}
+// 	cmd->args[i] = arg;
+// 	i++;
+// 	if (i == cmd->args_count) // NULL-terminate array and reset i to 0 when all cmds were handled
+// 	{
+// 		cmd->args[i] = NULL;
+// 		i = 0;
+// 	}
+// }
 
-// works
-// loops through cmd/flag/arg/env_arg and returns index after last byte
-int	parse_cmd(char *cmd_str, t_cmd *cmd)
-{
-	int		index;
-	char	*arg;
+// // works
+// // loops through cmd/flag/arg/env_arg and returns index after last byte
+// int	parse_cmd(char *cmd_str, t_cmd *cmd)
+// {
+// 	int		index;
+// 	char	*arg;
 
-	index = get_arg_len(cmd_str);
-	arg = ft_substr(cmd_str, 0, index);
-	if (!arg)
-		return (perror("parse_cmd"), -1); //free array
-	fill_args_arr(arg, cmd);
-	// printf("[parse cmd] %s\n", cmd->args[0]);
-	return (index);
-}
+// 	index = get_arg_len(cmd_str);
+// 	arg = ft_substr(cmd_str, 0, index);
+// 	if (!arg)
+// 		return (perror("parse_cmd"), -1); //free array
+// 	fill_args_arr(arg, cmd);
+// 	// printf("[parse cmd] %s\n", cmd->args[0]);
+// 	return (index);
+// }
 
 // works
 // forks tokens into arguments and redirs
-void	tokenize(char *cmd_str, t_cmd *cmd)
+int	tokenize(char *cmd_str, t_cmd *cmd)
 {
-	// printf("orig: %s\n", cmd_str);
+	int	index;
+
+	index = 0;
 	while (*cmd_str) // loops through cmd_str and sets i to byte after operator
 	{
 		if (is_quote(*cmd_str) || is_other(*cmd_str))
-			cmd_str += parse_cmd(cmd_str, cmd);
+			index = parse_cmd(cmd_str, cmd);
 		else if (is_redir(*cmd_str))
-			cmd_str += parse_redir(cmd_str, cmd);
+			index = parse_redir(cmd_str, cmd);
 		else
-			cmd_str += 1;
+			index = 1;
+		if (index == -1)
+			return (FAILURE);
+		cmd_str += index;
 	}
-}
-
-// works
-int	get_hdoc_count(char *cmd_str)
-{
-	int		i;
-	int		count;
-	char	*copy;
-
-	i = -1;
-	count = 0;
-	copy = blackout_quoted_content(cmd_str);
-	if (!copy)
-		return (perror("blackout_quoted_content"), FAILURE);
-	while (cmd_str[++i])
-		if (cmd_str[i] == '<' && cmd_str[i + 1] == '<')
-			count += 1;
-	free (copy);
-	return (count);
-}
-
-int	prepare_redirs(char *cmd_str, t_cmd *cmd)
-{
-	t_redirs	*redirects;
-
-	redirects = (t_redirs *)malloc(sizeof(t_redirs));
-	if (!redirects)
-		return (perror("prepare_redirs, struct"), FAILURE);
-	redirects->list = ft_calloc(cmd->redirs_count + 1, sizeof(char *));
-	if (!redirects->list)
-		return (perror("prepare_redirs, list"), FAILURE);
-	redirects->in_fd = 0;
-	redirects->out_fd = 0;
-	redirects->append_fd = 0;
-	redirects->hdoc_count = get_hdoc_count(cmd_str); //needed? check how often used in the end //RAUS bitte, sonst error handling
-	redirects->hdoc_delim = NULL;
-	redirects->exp_hdoc = NULL; //needed? rather NO
-	cmd->redirs = redirects;
 	return (SUCCESS);
 }
 
-//works
-// returns amout of redirs in 1 cmd_line
-int	get_redir_count(char *copy)
-{
-	int		count;
-	int		i;
+// // works
+// int	get_hdoc_count(char *cmd_str)
+// {
+// 	int		i;
+// 	int		count;
+// 	char	*copy;
 
-	count = 0;
-	i = -1;
-	while (copy[++i])
-	{
-		if (is_redir(copy[i]))
-		{
-			count++;
-			i++;
-			if (is_redir(copy[i]))
-				i++;
-		}
-	}
-	return (count);
-}
+// 	i = -1;
+// 	count = 0;
+// 	copy = blackout_quoted_content(cmd_str);
+// 	if (!copy)
+// 		return (perror("blackout_quoted_content"), FAILURE);
+// 	while (cmd_str[++i])
+// 		if (cmd_str[i] == '<' && cmd_str[i + 1] == '<')
+// 			count += 1;
+// 	free (copy);
+// 	return (count);
+// }
 
-// works
-// returns the amout of arguments in 1 cmd_line
-int	get_arg_count(char *copy)
-{
-	int	count;
-	int	i;
+// int	prepare_redirs(char *cmd_str, t_cmd *cmd)
+// {
+// 	t_redirs	*redirects;
 
-	count = 0;
-	i = -1;
-	while (copy[++i])
-	{
-		if (!is_whitespace(copy[i]) && !is_operator(copy[i]))
-		{
-			count++;
-			while (copy[i] && !is_whitespace(copy[i]) // whitespace and operator work as delimiter
-				&& !is_operator(copy[i]))
-				i++;
-		}
-	}
-	return (count);
-}
+// 	redirects = (t_redirs *)malloc(sizeof(t_redirs));
+// 	if (!redirects)
+// 		return (perror("prepare_redirs, struct"), FAILURE);
+// 	redirects->list = ft_calloc(cmd->redirs_count + 1, sizeof(char *));
+// 	if (!redirects->list)
+// 		return (perror("prepare_redirs, list"), FAILURE);
+// 	redirects->in_fd = 0;
+// 	redirects->out_fd = 0;
+// 	redirects->append_fd = 0;
+// 	redirects->hdoc_count = get_hdoc_count(cmd_str); //needed? check how often used in the end //RAUS bitte, sonst error handling
+// 	redirects->hdoc_delim = NULL;
+// 	redirects->exp_hdoc = NULL; //needed? rather NO
+// 	cmd->redirs = redirects;
+// 	return (SUCCESS);
+// }
 
-// works, no memory leaks
-// sets the arg_count and the args_arr for cmd node
-void	prepare_args_arr(char *cmd_str, t_cmd *cmd)
-{
-	char	*copy;
+// //works
+// // returns amout of redirs in 1 cmd_line
+// int	get_redir_count(char *copy)
+// {
+// 	int		count;
+// 	int		i;
 
-	copy = blackout_quoted_content(cmd_str);
-	if (!copy)
-		return (perror("blackout_quoted_content"), FAILURE);
-	cmd->redirs_count = get_redir_count(copy);
-	cmd->args_count = get_arg_count(copy) - cmd->redirs_count;
-	free (copy);
-	cmd->args = calloc(cmd->args_count + 1, sizeof(char *)); //attention: memory allocation // calloc needed as single strings are not filled immediatly
-}
+// 	count = 0;
+// 	i = -1;
+// 	while (copy[++i])
+// 	{
+// 		if (is_redir(copy[i]))
+// 		{
+// 			count++;
+// 			i++;
+// 			if (is_redir(copy[i]))
+// 				i++;
+// 		}
+// 	}
+// 	return (count);
+// }
+
+// // works
+// // returns the amout of arguments in 1 cmd_line
+// int	get_arg_count(char *copy)
+// {
+// 	int	count;
+// 	int	i;
+
+// 	count = 0;
+// 	i = -1;
+// 	while (copy[++i])
+// 	{
+// 		if (!is_whitespace(copy[i]) && !is_operator(copy[i]))
+// 		{
+// 			count++;
+// 			while (copy[i] && !is_whitespace(copy[i]) // whitespace and operator work as delimiter
+// 				&& !is_operator(copy[i]))
+// 				i++;
+// 		}
+// 	}
+// 	return (count);
+// }
+
+// // works, no memory leaks
+// // sets the arg_count and the args_arr for cmd node
+// void	prepare_args_arr(char *cmd_str, t_cmd *cmd)
+// {
+// 	char	*copy;
+
+// 	copy = blackout_quoted_content(cmd_str);
+// 	if (!copy)
+// 		return (perror("blackout_quoted_content"), FAILURE);
+// 	cmd->redirs_count = get_redir_count(copy);
+// 	cmd->args_count = get_arg_count(copy) - cmd->redirs_count;
+// 	free (copy);
+// 	cmd->args = calloc(cmd->args_count + 1, sizeof(char *)); //attention: memory allocation // calloc needed as single strings are not filled immediatly
+// }
 
 // // works
 // // creates t_cmd node
@@ -1078,47 +1090,52 @@ int	parse_cmd_lines(char *pipeline, int cmd_count, t_shell *minishell)
 // 	signal(SIGQUIT, SIG_IGN); //case: ctrl-\ - is ignored
 // }
 
-// works
-// sets the prompt, reads the user input and saves it into a char *buffer
-// creates and continously adds to history if input is non-empty
-int	init_minishell(t_shell *minishell)
-{
-	char	*input_str;
+// // works
+// // sets the prompt, reads the user input and saves it into a char *buffer
+// // program loop with signal handling
+// // creates and continously adds to history if input is non-empty
+// int	init_minishell(t_shell *minishell)
+// {
+// 	char	*input_str;
 
-	minishell->prompt = ft_strjoin(getenv("USER"), "@minishell: ");
-	setup_signals(handle_signal_parent);
-	while (1)
-	{
-		input_str = readline(minishell->prompt);
-		if (!input_str)// exits in case of ctrl-D
-		{
-			printf("exit\n");
-			exit(1);
-		}
-		if (*input_str)
-		{
-			parse_pipeline(input_str, minishell); //what if this one fails?
-			// execute(minishell);
-			add_history(input_str);// adds user input to history
-			free(input_str);
-		}
-	}
-	return (0);
-}
+// 	minishell->prompt = ft_strjoin(getenv("USER"), "@minishell: ");
+// 	setup_signals(handle_signal_parent);
+// 	while (1)
+// 	{
+// 		input_str = readline(minishell->prompt);
+// 		if (!input_str)// exits in case of ctrl-D
+// 		{
+// 			printf("exit\n");
+// 			exit(1);
+// 		}
+// 		if (*input_str)
+// 		{
+// 			if (parse_pipeline(input_str, minishell))
+// 			{
+// 				free(input_str);
+// 				exit(1);
+// 			}
+// 			// execute(minishell);
+// 			add_history(input_str); //adds user input to history
+// 			free(input_str);
+// 		}
+// 	}
+// 	return (0);
+// }
 
-int	main(int ac, char **av, char **env)
-{
-	t_shell	*minishell;
+// int	main(int ac, char **av, char **env)
+// {
+// 	t_shell	*minishell;
 
-	(void)ac;
-	(void)av;
-	minishell = (t_shell *)malloc(sizeof(t_shell));
-	if (!minishell)
-		return (perror("t_shell memory allocation"), FAILURE);
-	minishell->env = ft_env_dup(env);
-	if (!minishell->env)
-		return (perror("env memory allocation"), FAILURE);
-	init_minishell(minishell);
-	end_minishell(minishell);
-	return (SUCCESS);
-}
+// 	(void)ac;
+// 	(void)av;
+// 	minishell = (t_shell *)malloc(sizeof(t_shell));
+// 	if (!minishell)
+// 		return (perror("t_shell memory allocation"), FAILURE);
+// 	minishell->env = ft_env_dup(env);
+// 	if (!minishell->env)
+// 		return (free(minishell), FAILURE);
+// 	init_minishell(minishell);
+// 	end_minishell(minishell);
+// 	return (SUCCESS);
+// }

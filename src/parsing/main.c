@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0.1.main.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:34:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/17 16:34:25 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 11:06:49 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ int	main(int ac, char **av, char **env)
 	minishell = (t_shell *)malloc(sizeof(t_shell));
 	if (!minishell)
 		return (perror("t_shell memory allocation"), FAILURE);
-	// minishell->env = ft_env_dup(env);
-	init_minishell(minishell); //what if this goes wrong? - fall out of loop
+	minishell->env = ft_env_dup(env);
+	if (!minishell->env)
+		return (free(minishell), FAILURE);
+	init_minishell(minishell);
 	end_minishell(minishell);
-	return (0);
+	return (SUCCESS);
 }

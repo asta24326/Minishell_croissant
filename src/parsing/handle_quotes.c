@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 13:04:39 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/17 17:24:02 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:42:39 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,19 @@ char	*get_clean_str(char *orig_str)
 // works
 // cleans the passed char *arr from unnecessary quotes
 // needed for char **args and for char **redirs
-void	cleanup_quotes(char **arr)
+int	cleanup_quotes(char **arr)
 {
 	int		i;
 
 	i = -1;
-	// printf("orig: %s\n", arr[0]);
 	while (arr[++i])
 	{
 		if (strchr(arr[i], '\'') || strchr(arr[i], '\"'))
 		{
 			arr[i] = get_clean_str(arr[i]);
 			if (!arr[i])
-				ft_free(arr); //to include from kristin's ft_split
+				return (ft_free_arr(arr), FAILURE);
 		}
 	}
+	return (SUCCESS);
 }

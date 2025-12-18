@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 18:33:41 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/17 17:54:28 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 13:28:40 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,22 @@ int	parse_cmd_lines(char *pipeline, int cmd_count, t_shell *minishell)
 	i = -1;
 	while (++i < cmd_count)
 	{
-		tokenize(arr[i], minishell->cmd);
+		if (tokenize(arr[i], minishell->cmd))
+			return (FAILURE);
 		// handle_heredoc();
 		// expand_env_var();
-		cleanup_quotes(minishell->cmd->args);
+		if (cleanup_quotes(minishell->cmd->args))
+			return (FAILURE);
 		minishell->cmd->builtin = is_builtin_cmd(minishell->cmd);
 		if (minishell->cmd->redirs_count > 0)
 		{
-			cleanup_quotes(minishell->cmd->redirs->list);
-			handle_redirs(minishell->cmd);
+			if (cleanup_quotes(minishell->cmd->redirs->list))
+				return (FAILURE);
+			if (handle_redirs(minishell->cmd))
+				return (FAILURE);
 		}
 		minishell->cmd = minishell->cmd->next;
 	}
 	minishell->cmd = head;
-	return (clean(arr, cmd_count), SUCCESS);
+	return (ft_free_arr(arr), SUCCESS);
 }

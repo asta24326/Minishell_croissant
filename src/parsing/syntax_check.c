@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:55:55 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/17 16:49:00 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:08:29 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,3 @@ int	is_valid_syntax(char *copy)
 		return (perror("Syntax error. Unclosed quote(s).\n"), false);
 	return (true);
 }
-
-// // only for testing--------------
-// int	main(void)
-// {
-// 	char	*pipeline;
-// 	int		i;
-
-// 	pipeline = "''";
-// 	// pipeline = "echo 'hi' hello | cat -l $USER | >> filex | j";
-// 	if (!(is_valid_syntax(pipeline)))
-// 		printf("non-valid syntax\n");
-// 	else
-// 		printf("valid syntax\n");
-// }

@@ -1,86 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3.1.parse_cmd.c                                    :+:      :+:    :+:   */
+/*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:49:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/15 19:10:53 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:57:25 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// ------------needs to go out---------------------
-// size_t	ft_strlen(const char *s)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (*s++)
-// 		i++;
-// 	return (i);
-// }
-
-// char	*ft_strdup(const char *s)
-// {
-// 	size_t	s_len;
-// 	char	*dest;
-// 	size_t	i;
-
-// 	i = 0;
-// 	s_len = ft_strlen(s);
-// 	dest = (char *)malloc(sizeof(char) * (s_len + 1));
-// 	if (dest == NULL)
-// 		return (NULL);
-// 	while (s_len > i)
-// 	{
-// 		dest[i] = s[i];
-// 		i++;
-// 	}
-// 	dest[i] = '\0';
-// 	return (dest);
-// }
-
-// char	*ft_substr(char const *s, unsigned int start, size_t len)
-// {
-// 	char	*dest;
-// 	size_t	str_len;
-// 	size_t	i;
-
-// 	if (!s)
-// 		return (NULL);
-// 	str_len = ft_strlen(s);
-// 	if (start >= str_len)
-// 		return (ft_strdup(""));
-// 	if (len > str_len - start)
-// 		len = str_len - start;
-// 	dest = (char *)malloc(sizeof(char) * (len + 1));
-// 	if (!dest)
-// 		return (NULL);
-// 	i = 0;
-// 	while (len > i)
-// 	{
-// 		dest[i] = s[start + i];
-// 		i++;
-// 	}
-// 	dest[i] = '\0';
-// 	return (dest);
-// }
-// ------------END (needs to go out)---------------------
-
 // works
 // returns length of cmd/flag/arg/env_arg
 int	get_arg_len(char *str)
 {
-	int	len;
+	int		len;
+	char	quot_mark;
 
 	len = 0;
-	while (*str && !is_whitespace(*str) && !is_operator(*str))
+	while (str[len])
 	{
-		len++;
-		str++;
+		if (is_quote(str[len]))
+		{
+			quot_mark = str[len];
+			len += 1;
+			while (str[len] && str[len] != quot_mark)
+				len += 1;
+			len += 1;
+		}
+		else if (is_other(str[len]))
+			while (str[len] && !is_whitespace(str[len])
+				&& !is_operator(str[len]) && !is_quote(str[len]))
+				len += 1;
 	}
 	return (len);
 }
@@ -109,7 +62,9 @@ int	parse_cmd(char *cmd_str, t_cmd *cmd)
 	char	*arg;
 
 	index = get_arg_len(cmd_str);
-	arg = ft_substr(cmd_str, 0, index); // attention: memory allocation
+	arg = ft_substr(cmd_str, 0, index);
+	if (!arg)
+		return (perror("parse_cmd"), -1);
 	fill_args_arr(arg, cmd);
 	return (index);
 }

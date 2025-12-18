@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 20:05:38 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/17 17:20:38 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:45:29 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ int	handle_outfile(char *filename, t_cmd *cmd)
 		close (fd);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (perror("handle_outfile"), FAILURE);
+		return (perror("handle_outfile"), free(filename), FAILURE);
 	cmd->redirs->out_fd = fd;
-	free (filename);
-	return (SUCCESS);
+	return (free(filename), SUCCESS);
 }
 
 // works
@@ -48,10 +47,9 @@ int	handle_append(char *filename, t_cmd *cmd)
 		close (fd);
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		return (perror("handle_append"), FAILURE);
+		return (perror("handle_append"), free(filename), FAILURE);
 	cmd->redirs->append_fd = fd;
-	free (filename);
-	return (SUCCESS);
+	return (free(filename), SUCCESS);
 }
 
 // works
@@ -69,15 +67,14 @@ int	handle_infile(char *filename, t_cmd *cmd)
 		close (fd);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (perror("handle_infile"), FAILURE);
+		return (perror("handle_infile"), free(filename), FAILURE);
 	if (cmd->redirs->hdoc_delim != NULL) //only if heredoc exists
 	{
 		close (fd);
 		fd = 0;
 	}
 	cmd->redirs->in_fd = fd;
-	free (filename);
-	return (SUCCESS);
+	return (free(filename), SUCCESS);
 }
 
 // works
@@ -100,10 +97,12 @@ char	*get_filename(char *redir_str)
 int	handle_redirs(t_cmd *cmd)
 {
 	int		i;
+	int		status;
 	char	**redir_list;
 	char	*filename;
 
 	i = -1;
+	status = 0;
 	redir_list = cmd->redirs->list;
 	while (redir_list[++i])
 	{
@@ -111,11 +110,13 @@ int	handle_redirs(t_cmd *cmd)
 		if (!filename)
 			return (perror("get_filename"), FAILURE);
 		if (redir_list[i][0] == '>' && redir_list[i][1] != '>')
-			handle_outfile(filename, cmd);
+			status = handle_outfile(filename, cmd);
 		else if (redir_list[i][0] == '>' && redir_list[i][1] == '>')
-			handle_append(filename, cmd);
+			status = handle_append(filename, cmd);
 		else if (redir_list[i][0] == '<' && redir_list[i][1] != '<')
-			handle_infile(filename, cmd);
+			status = handle_infile(filename, cmd);
+		if (status == 1)
+			return (free(cmd->redirs->list), FAILURE);
 	}
 	if (cmd->redirs->out_fd > 0 && cmd->redirs->append_fd > 0) //case: out & append, only out is passed
 	{

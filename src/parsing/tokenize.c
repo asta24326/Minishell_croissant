@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prepare_parsing.c                                  :+:      :+:    :+:   */
+/*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/01 15:06:57 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/18 11:27:46 by kschmitt         ###   ########.fr       */
+/*   Created: 2025/12/03 17:33:40 by kschmitt          #+#    #+#             */
+/*   Updated: 2025/12/18 13:26:19 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // works
-// extracts amount of pipes
-int	get_pipe_count(char *copy)
+// forks tokens into arguments and redirs
+int	tokenize(char *cmd_str, t_cmd *cmd)
 {
-	int		count;
-	int		i;
+	int	index;
 
-	count = 0;
-	i = -1;
-	while (copy[++i])
-		if (copy[i] == 124)
-			count++;
-	return (count);
-}
-
-// works
-// extracts data for t_shell structure
-void	prepare_parsing(char *copy, t_shell *minishell)
-{
-	minishell->pipe_count = get_pipe_count(copy);
-	minishell->pipes = NULL; //handled in exec
-	minishell->cmd = NULL;
-	minishell->exit_status = 0;
-	minishell->shell_pid = getpid();
+	index = 0;
+	while (*cmd_str) // loops through cmd_str and sets i to byte after operator
+	{
+		if (is_quote(*cmd_str) || is_other(*cmd_str))
+			index = parse_cmd(cmd_str, cmd);
+		else if (is_redir(*cmd_str))
+			index = parse_redir(cmd_str, cmd);
+		else
+			index = 1;
+		if (index == -1)
+			return (FAILURE);
+		cmd_str += index;
+	}
+	return (SUCCESS);
 }
