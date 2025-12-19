@@ -12,24 +12,24 @@ PRS_DIR = $(SRC_DIR)/parsing
 EXEC_DIR = $(SRC_DIR)/execution
 INCL_DIR = includes
 
-SRC =	$(PRS_DIR)/main.c \
-		$(PRS_DIR)/minishell_initialization.c \
-		$(PRS_DIR)/signal_handling.c \
-		$(PRS_DIR)/minishell_termination.c \
-		$(PRS_DIR)/parsing.c \
-		$(PRS_DIR)/syntax_check.c \
-		$(PRS_DIR)/syntax_utils.c \
-		$(PRS_DIR)/prepare_parsing.c \
-		$(PRS_DIR)/parse_cmd_line.c \
-		$(PRS_DIR)/prepare_cmd_lst.c \
-		$(PRS_DIR)/prepare_args_arr.c \
-		$(PRS_DIR)/prepare_redirs.c \
-		$(PRS_DIR)/tokenize.c \
-		$(PRS_DIR)/parse_cmd.c \
-		$(PRS_DIR)/parse_redir.c \
-		$(PRS_DIR)/handle_quotes.c \
-		$(PRS_DIR)/check_builtin_cmds.c \
-		$(PRS_DIR)/handle_redirs.c \
+SRC =	$(PRS_DIR)/0.1.main.c \
+		$(PRS_DIR)/0.2.minishell_initialization.c \
+		$(PRS_DIR)/0.3.signal_handling.c \
+		$(PRS_DIR)/0.4.minishell_termination.c \
+		$(PRS_DIR)/1.1.parsing.c \
+		$(PRS_DIR)/1.2.syntax_check.c \
+		$(PRS_DIR)/1.3.syntax_utils.c \
+		$(PRS_DIR)/1.4.prepare_parsing.c \
+		$(PRS_DIR)/2.1.parse_cmd_line.c \
+		$(PRS_DIR)/2.2.prepare_cmd_lst.c \
+		$(PRS_DIR)/2.3.prepare_args_arr.c \
+		$(PRS_DIR)/2.4.prepare_redirs.c \
+		$(PRS_DIR)/3.1.tokenize.c \
+		$(PRS_DIR)/3.2.parse_cmd.c \
+		$(PRS_DIR)/3.3.parse_redir.c \
+		$(PRS_DIR)/4.1.handle_quotes.c \
+		$(PRS_DIR)/4.2.check_builtin_cmds.c \
+		$(PRS_DIR)/4.3.handle_redirs.c \
 		$(PRS_DIR)/_print_parsing_results.c \
 		$(EXEC_DIR)/env_init.c \
 
