@@ -94,7 +94,6 @@ typedef struct	s_redirs
 	char	**list; //needed for parsing
 	int		in_fd;
 	int		out_fd;
-	// int		append_fd; //added
 	int		hdoc_count; //added
 	char	*hdoc_delim;
 	bool	exp_hdoc; // no - if heredoc delimeter has '  ', yes - if none
@@ -265,8 +264,7 @@ int			is_builtin_cmd(t_cmd *cmd);
 int			handle_redirs(t_cmd *cmd);
 char		*get_filename(char *redir_str);
 int			handle_infile(char *filename, t_cmd *cmd);
-// int			handle_append(char *filename, t_cmd *cmd);
-int			handle_outfile(char *filename, t_cmd *cmd, int op_count);
+int			handle_out_redir(char *filename, t_cmd *cmd, int op_count);
 
 //_print_parsing_results.c - only for testing, will go out
 void		print_list(t_cmd *cmd, int cmd_count);
