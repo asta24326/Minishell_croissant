@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redirs.c                                    :+:      :+:    :+:   */
+/*   4.3.handle_redirs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@dent.42berlin.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 20:05:38 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/18 17:53:43 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:02:40 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // works
-int	handle_outfile(char *filename, t_cmd *cmd, int op_count)
+int	handle_out_redir(char *filename, t_cmd *cmd, int op_count)
 {
 	static int	fd;
 	static int	cmd_index;
@@ -34,26 +34,6 @@ int	handle_outfile(char *filename, t_cmd *cmd, int op_count)
 	cmd->redirs->out_fd = fd;
 	return (free(filename), SUCCESS);
 }
-
-// // works
-// int	handle_append(char *filename, t_cmd *cmd)
-// {
-// 	static int	fd;
-// 	static int	cmd_index;
-
-// 	if (cmd_index != cmd->index)//case: we arrived at next cmd
-// 	{
-// 		cmd_index = cmd->index;
-// 		fd = 0;
-// 	}
-// 	if (fd > 0)//case:several appends in 1 cmd
-// 		close (fd);
-// 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-// 	if (fd == -1)
-// 		return (perror("handle_append"), free(filename), FAILURE);
-// 	cmd->redirs->append_fd = fd;
-// 	return (free(filename), SUCCESS);
-// }
 
 // works
 int	handle_infile(char *filename, t_cmd *cmd)
@@ -113,18 +93,13 @@ int	handle_redirs(t_cmd *cmd)
 		if (!filename)
 			return (perror("get_filename"), FAILURE);
 		if (redir_list[i][0] == '>' && redir_list[i][1] != '>')
-			status = handle_outfile(filename, cmd, 1);
+			status = handle_out_redir(filename, cmd, 1);
 		else if (redir_list[i][0] == '>' && redir_list[i][1] == '>')
-			status = handle_outfile(filename, cmd, 2);
+			status = handle_out_redir(filename, cmd, 2);
 		else if (redir_list[i][0] == '<' && redir_list[i][1] != '<')
 			status = handle_infile(filename, cmd);
 		if (status == 1)
 			return (free(cmd->redirs->list), FAILURE);
 	}
-	// if (cmd->redirs->out_fd > 0 && cmd->redirs->append_fd > 0) //case: out & append, only out is passed
-	// {
-	// 	close (cmd->redirs->append_fd);
-	// 	cmd->redirs->append_fd = 0;
-	// }
 	return (free(cmd->redirs->list), SUCCESS);
 }

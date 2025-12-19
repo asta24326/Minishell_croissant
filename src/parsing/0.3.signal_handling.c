@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@dent.42berlin.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:18:03 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/18 15:16:35 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/19 11:01:37 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	handle_signal_parent(int signum)
 	(void)signum;
 	printf("\n");
 	rl_on_new_line();//updates about jump to next line
-	rl_replace_line("", 0);//clears current buffer
+	// rl_replace_line("", 0);//clears current buffer
 	rl_redisplay();//refreshes readline prompt
 	return ;
 }
