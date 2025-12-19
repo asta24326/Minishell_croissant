@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_sys_cmd.c                                     :+:      :+:    :+:   */
+/*   5.3.exec_sys_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 23:03:19 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/15 22:49:44 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/19 18:20:48 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	ft_exec_child_proc(t_shell *shell, t_cmd *cmd, char *path);
+static void	ft_setup_redirs(t_redirs *redirs);
+static void	ft_handle_exec_error(char *cmd_name, char *path);
+static int	ft_error_and_exit(t_shell *shell, char *arg);
 
 int	ft_exec_sys_cmd(t_shell *shell, t_cmd *cmd)
 {
@@ -41,12 +46,12 @@ int	ft_exec_sys_cmd(t_shell *shell, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-static void	ft_exec_child_process(t_shell *shell, t_cmd *cmd, char *path)
+static void	ft_exec_child_proc(t_shell *shell, t_cmd *cmd, char *path)
 {
 	if (cmd->redirs)
 		ft_setup_redirs(cmd->redirs);
-		execve(path, cmd->args, shell->env);
-		ft_handle_exec_error(cmd->args[0], path);
+	execve(path, cmd->args, shell->env);
+	ft_handle_exec_error(cmd->args[0], path);
 }
 
 static void	ft_setup_redirs(t_redirs *redirs)

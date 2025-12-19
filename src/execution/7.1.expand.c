@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   7.1.expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 22:27:14 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/14 21:46:53 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/19 21:32:12 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,7 @@
 
 static bool	ft_is_valid_var_char(int c);
 
-int	ft_expand_hdoc_delims(t_shell *shell)
-{
-	t_cmd	*curr_cmd;
-	char	*expanded;
-
-	curr_cmd = shell->cmd;
-	while (curr_cmd)
-	{
-		if (curr_cmd->redirs->hdoc_delim && curr_cmd->redirs->hdoc_delim)
-		{
-			if (curr_cmd->redirs->exp_hdoc == true)
-			{
-				expanded = ft_expand_arg(shell, curr_cmd->redirs->hdoc_delim);
-				if (!expanded)
-					return (FAILURE);
-				free(curr_cmd->redirs->hdoc_delim);
-				curr_cmd->redirs->hdoc_delim = expanded;
-			}
-		}
-		curr_cmd = curr_cmd->next;
-	}
-	return (SUCCESS);
-}
-
-int	ft_expand_cmd_args(t_shell *shell)// main function to expand variables in all commands
+int	ft_expand(t_shell *shell)// main function to expand variables in all commands
 {
 	t_cmd	*curr_cmd;
 	int		i;
@@ -78,6 +54,30 @@ char	*ft_expand_arg(t_shell *shell, char *arg)
 		return (ft_strdup(arg));
 	}
 	return (ft_strdup(arg));
+}
+
+int	ft_expand_hdoc_delims(t_shell *shell)
+{
+	t_cmd	*curr_cmd;
+	char	*expanded;
+
+	curr_cmd = shell->cmd;
+	while (curr_cmd)
+	{
+		if (curr_cmd->redirs->hdoc_delim && curr_cmd->redirs->hdoc_delim)
+		{
+			if (curr_cmd->redirs->exp_hdoc == true)
+			{
+				expanded = ft_expand_arg(shell, curr_cmd->redirs->hdoc_delim);
+				if (!expanded)
+					return (FAILURE);
+				free(curr_cmd->redirs->hdoc_delim);
+				curr_cmd->redirs->hdoc_delim = expanded;
+			}
+		}
+		curr_cmd = curr_cmd->next;
+	}
+	return (SUCCESS);
 }
 
 static bool	ft_is_valid_var_char(int c)

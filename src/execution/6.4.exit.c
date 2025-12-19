@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   6.4.exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 01:15:04 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/14 22:43:20 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/19 21:31:30 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	ft_is_valid_exit_arg(t_shell *shell, t_cmd *cmd);
+static bool	ft_is_valid_exit_arg(t_cmd *cmd);
 static bool	ft_is_numeric_str(char *arg);
 static long	ft_get_exit_code(char *arg);
 
@@ -20,25 +20,25 @@ int	ft_exit(t_shell *shell, t_cmd *cmd)
 {
 	long	exit_code;
 
-	(void)shell;
 	ft_putstr_fd("exit\n", 2);
 	if (!cmd->args[1])
-		exit(0);
-	if (ft_is_valid_exit_arg(shell, cmd) == false)
+		ft_cleanup_and_exit(shell, 0);
+	if (ft_is_valid_exit_arg(cmd) == false)
 	{
 		if (cmd->args[2])
+		{	
+			shell->exit_status = 1;
 			return (FAILURE);
-		exit(2);
+		}
+		ft_cleanup_and_exit(shell, 2);
 	}
 	exit_code = ft_get_exit_code(cmd->args[1]);
-	exit(exit_code);
+	ft_cleanup_and_exit(shell, (int)exit_code);
 	return (SUCCESS);
 }
 
-static bool	ft_is_valid_exit_arg(t_shell *shell, t_cmd *cmd)
+static bool	ft_is_valid_exit_arg(t_cmd *cmd)
 {
-	(void)shell;
-	
 	if (ft_is_numeric_str(cmd->args[1]) == false)
 	{
 		ft_putstr_fd("minishell: exit: ", 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/18 17:52:38 by kschmitt         ###   ########.fr       */
+/*   Updated: 2025/12/19 21:32:11 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,10 @@ typedef struct	s_redirs
 /* command data structure */
 typedef struct	s_cmd
 {
-//	char			*name - no need anymore
 	int				index; //needed for redirs handling (parsing)
 	char			**args;	//changed name
 	int				args_count; //needed for parsing
 	int				redirs_count; //needed for parsing
-	// char			*infile;
-	// char			*outfile;
-	// bool			closed; // false if further input is needed through interaction
 	bool			builtin;// true if is builtin command
 	t_redirs		*redirs;
 	struct s_cmd	*next;
@@ -130,62 +126,7 @@ typedef struct	s_shell
 
 /* FUNCTIONS */
 
-/* execution folder */
-
-// env_init.c - initialisation copy of env
-char		**ft_env_dup(char **env);
-
-// 1.1 exec_cmds.c
-void		ft_exec_cmds(t_shell *shell, t_cmd *cmd);
-void		ft_exec_solo_cmd(t_shell *shell, t_cmd *cmd);
-bool		ft_is_builtin(char *cmd_name);
-int			ft_pipes_init(t_shell *shell);
-
-// builtin_1.c
-int			ft_echo(t_cmd *cmd);
-int			ft_cd(t_shell *shell, t_cmd *cmd);
-
-// heredoc_handle.c
-int			ft_handle_heredoc(t_shell *shell, t_cmd *cmd, t_redirs *rdrs);
-void		ft_process_all_heredocs(t_shell *shell);
-
-// path_setup.c
-char		*ft_getpath(char *cmd, char **env);
-char		*ft_parse_env(char *name, char **env);
-void		ft_free_arr_str(char **arr);
-
-// redirs_setup.c
-void		ft_setup_redirs(t_shell *shell, t_cmd *cmd);
-
-// cd.c
-int			ft_cd(t_shell *shell, t_cmd *cmd);
-
-// echo.c
-int			ft_echo(t_cmd *cmd);
-
-// expand_vars.c
-int			ft_expand_all_args(t_shell *shell);
-char		*ft_expand_arg(t_shell *shell, char *arg);
-char		*ft_expand_env_var(t_shell *shell, char *arg);
-size_t		ft_get_var_name_len(char *arg);
-
-// export.c
-int			ft_export(t_shell *shell, t_cmd *cmd);
-bool		ft_is_valid_var_name(char *var);
-
-// export_utils.c
-char		**ft_sort_env(char **env);
-char		*ft_normalize_env_var(char *var);
-void		ft_print_var_with_quotes(char *var);
-
-// exit.c
-int			ft_exit(t_shell *shell, t_cmd *cmd);
-
-// env.c
-int			ft_env(t_shell *shell, t_cmd *cmd);
-
-
-/* parsing folder */
+/* PARSING FOLDER */
 
 // minishell_initialization.c
 int			init_minishell(t_shell *minishell);
@@ -268,5 +209,83 @@ int			handle_out_redir(char *filename, t_cmd *cmd, int op_count);
 
 //_print_parsing_results.c - only for testing, will go out
 void		print_list(t_cmd *cmd, int cmd_count);
+
+/* ==================== */
+
+/* EXECUTION FOLDER */
+
+// 5.1.exec_cmds.c
+void		ft_exec_cmds(t_shell *shell);
+void		ft_exec_solo_cmd(t_shell *shell, t_cmd *cmd);
+
+// 5.2.exec_builtin.c
+int			ft_exec_builtin(t_shell *shell, t_cmd *cmd, char *cmd_name);
+
+// 5.3.exec_sys_cmd.c
+int			ft_exec_sys_cmd(t_shell *shell, t_cmd *cmd);
+
+// 5.4.path_setup.c
+char		*ft_getpath(char *cmd, char **env);
+char		*ft_parse_env(char *name, char **env);
+void		ft_free_arr_str(char **arr);
+
+// 5.5.redirs_setup.c
+void		ft_setup_redirs(t_shell *shell, t_cmd *cmd);
+
+// 6.1.cd.c
+int			ft_cd(t_shell *shell, t_cmd *cmd);
+
+// 6.2.echo.c
+int			ft_echo(t_cmd *cmd);
+
+// 6.3.env.c
+int			ft_env(t_shell *shell, t_cmd *cmd);
+
+// 6.4.exit.c
+int			ft_exit(t_shell *shell, t_cmd *cmd);
+
+// 6.5.1.export.c
+int			ft_export(t_shell *shell, t_cmd *cmd);
+bool		ft_is_valid_var_name(char *var);
+
+// 6.5.2.export_utils.c
+char		**ft_sort_env(char **env);
+char		*ft_normalize_env_var(char *var);
+void		ft_print_var_with_quotes(char *var);
+
+// 6.6.pwd.c
+int			ft_pwd(t_shell *shell, t_cmd *cmd);
+
+// 6.7.unset.c
+int			ft_unset(t_shell *shell, t_cmd *cmd);
+
+// 7.1.expand.c
+int			ft_expand(t_shell *shell);
+char		*ft_expand_arg(t_shell *shell, char *arg);
+int			ft_expand_hdoc_delims(t_shell *shell);
+
+// 7.2.expand_utils.c
+size_t		ft_get_var_name_len(char *arg);
+char		*ft_expand_env_var(t_shell *shell, char *arg);
+
+// 8.1.env_init.c
+char		**ft_env_dup(char **env);
+
+// 9.1.heredoc_handle.c
+void		ft_process_all_heredocs(t_shell *shell);
+int			ft_handle_heredoc(t_shell *shell, t_cmd *cmd);
+
+// 10.1.cleanup_and_exit.c
+void		ft_cleanup_and_exit(t_shell *shell, int exit_code);
+void		ft_cleanup_shell(t_shell *shell);
+void		ft_cleanup_cmd_list(t_cmd **cmd_list);
+void		ft_cleanup_cmd(t_cmd *cmd);
+void		ft_cleanup_redirs(t_redirs *redirs);
+
+// 11.1.pipes_handle.c
+int			ft_pipes_init(t_shell *shell);
+void		ft_close_all_pipes(t_shell *shell);
+void		ft_close_unused_pipes(t_shell *shell, t_cmd *cmd, int cmd_index);
+void		ft_cleanup_pipes_array(t_shell *shell);
 
 #endif
