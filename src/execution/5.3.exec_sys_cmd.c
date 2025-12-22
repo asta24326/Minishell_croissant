@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 23:03:19 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/19 18:20:48 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/22 22:22:48 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_exec_sys_cmd(t_shell *shell, t_cmd *cmd)
 		return (FAILURE);
 	}
 	if (pid == 0)//child process
-		ft_exec_child_proc(shell, cmd, path);
+		ft_exec_child_process(shell, cmd, path);
 	waitpid(pid, &status, 0);// waiting for child to finish
 	free(path);
 	if (WIFEXITED(status))// setting exit statuses
@@ -46,7 +46,7 @@ int	ft_exec_sys_cmd(t_shell *shell, t_cmd *cmd)
 	return (SUCCESS);
 }
 
-static void	ft_exec_child_proc(t_shell *shell, t_cmd *cmd, char *path)
+static void	ft_exec_child_process(t_shell *shell, t_cmd *cmd, char *path)
 {
 	if (cmd->redirs)
 		ft_setup_redirs(cmd->redirs);

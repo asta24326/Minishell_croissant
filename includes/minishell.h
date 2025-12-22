@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/19 21:32:11 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/22 22:24:40 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ void		ft_cleanup_redirs(t_redirs *redirs);
 
 // 11.1.pipes_handle.c
 int			ft_pipes_init(t_shell *shell);
+void		ft_setup_pipes_for_cmd(t_shell *shell, int cmd_index);
 void		ft_close_all_pipes(t_shell *shell);
 void		ft_close_unused_pipes(t_shell *shell, t_cmd *cmd, int cmd_index);
 void		ft_cleanup_pipes_array(t_shell *shell);
