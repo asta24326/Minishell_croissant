@@ -6,11 +6,14 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:15:52 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2025/12/22 22:48:21 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/22 22:50:19 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	ft_wait_for_childs(t_shell *shell, int *status);
+static int	ft_exec_multi_sys_cmd(t_shell *shell, t_cmd *cmd);
 
 void	ft_exec_cmds(t_shell *shell)
 {

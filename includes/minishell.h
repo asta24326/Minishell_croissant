@@ -6,7 +6,7 @@
 /*   By: aidarsharafeev <aidarsharafeev@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2025/12/22 22:24:40 by aidarsharaf      ###   ########.fr       */
+/*   Updated: 2025/12/22 22:50:21 by aidarsharaf      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,8 @@ void		print_list(t_cmd *cmd, int cmd_count);
 // 5.1.exec_cmds.c
 void		ft_exec_cmds(t_shell *shell);
 void		ft_exec_solo_cmd(t_shell *shell, t_cmd *cmd);
+int			ft_exec_multi_cmds(t_shell *shell, t_cmd *cmd);
+
 
 // 5.2.exec_builtin.c
 int			ft_exec_builtin(t_shell *shell, t_cmd *cmd, char *cmd_name);
@@ -286,7 +288,6 @@ void		ft_cleanup_redirs(t_redirs *redirs);
 int			ft_pipes_init(t_shell *shell);
 void		ft_setup_pipes_for_cmd(t_shell *shell, int cmd_index);
 void		ft_close_all_pipes(t_shell *shell);
-void		ft_close_unused_pipes(t_shell *shell, t_cmd *cmd, int cmd_index);
 void		ft_cleanup_pipes_array(t_shell *shell);
 
 #endif
