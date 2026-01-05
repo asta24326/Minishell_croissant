@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5.5.redirs_setup.c                                 :+:      :+:    :+:   */
+/*   5.5.1.redirs_setup.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 20:44:31 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/03 20:01:49 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:37:03 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_setup_hdoc_in_fd(t_shell *shell, t_cmd *cmd);
 
 void	ft_setup_cmd_redirs(t_shell *shell, t_cmd *cmd)
 {
-	if (cmd->redirs)	
+	if (cmd->redirs)
 	{
 		if (cmd->redirs->out_fd >= 0)
 		{
@@ -60,7 +60,7 @@ static void	ft_setup_in_fd(t_shell *shell, t_cmd *cmd)
 static void	ft_setup_hdoc_in_fd(t_shell *shell, t_cmd *cmd)
 {
 	t_hdoc	*last_hdoc;
-	
+
 	last_hdoc = ft_get_last_hdoc(cmd->redirs->hdocs);
 	if (!last_hdoc)
 		ft_putstr_fd("ft_get_last_hdoc failed\n", 2);

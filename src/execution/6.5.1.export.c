@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 16:29:54 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/05 18:07:22 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:32:30 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,9 @@ static int	ft_add_new_var(t_shell *shell, char *var)
 
 	if (!var)
 		return (FAILURE);
-	printf("wtf is var before normalize: '%s'\n", var);
 	var = ft_normalize_env_var(var);
 	if (!var)
 		return (FAILURE);
-	printf("wtf is var  after normalize: '%s'\n", var);
 	env_len = 0;
 	while (shell->env[env_len])
 		env_len++;

@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:49:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/05 12:48:13 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:30:55 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ int	get_arg_len(char *str)
 
 	len = 0;
 	while (str[len] && !is_whitespace(str[len]) && !is_operator(str[len]))
+	{
+		if (is_quote(str[len]))
+			len += get_arg_len_in_quotes(str + len);
 		len ++;
+	}
 	return (len);
 }
 

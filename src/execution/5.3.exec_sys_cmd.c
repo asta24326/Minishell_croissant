@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   5.3.exec_sys_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 23:03:19 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/02 21:24:24 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:24:14 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	ft_exec_child_solo_process(t_shell *shell, t_cmd *cmd, char *path)
 {
 	ft_reset_signals();
 	signal(SIGPIPE, SIG_IGN);
-	ft_setup_cmd_redirs(shell, cmd);
 	execve(path, cmd->args, shell->env);
 	ft_handle_exec_error(cmd->args[0], path);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10.1.1.cleanup_and_exit.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 19:55:22 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/04 12:29:40 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:37:42 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,3 @@ void	ft_cleanup_reset_redirs(t_redirs *redirs)
 		ft_cleanup_hdocs_list(&redirs->hdocs);
 	free(redirs);
 }
-
-	
