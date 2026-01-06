@@ -38,7 +38,8 @@ SRC =	$(PRS_DIR)/0.1.main.c \
 		$(EXEC_DIR)/5.1.1.exec_cmds.c \
 		$(EXEC_DIR)/5.1.2.exec_cmds_utils.c \
 		$(EXEC_DIR)/5.2.exec_builtin.c \
-		$(EXEC_DIR)/5.3.exec_sys_cmd.c \
+		$(EXEC_DIR)/5.3.1.exec_sys_cmd.c \
+		$(EXEC_DIR)/5.3.2.exec_sys_cmd_utils.c \
 		$(EXEC_DIR)/5.4.path_setup.c \
 		$(EXEC_DIR)/5.5.1.redirs_setup.c \
 		$(EXEC_DIR)/5.5.2.redirs_setup_utils.c \
@@ -61,7 +62,8 @@ SRC =	$(PRS_DIR)/0.1.main.c \
 		$(EXEC_DIR)/10.1.2.cleanup_after_cmd_exec.c \
 		$(EXEC_DIR)/10.1.3.cleanup_hdocs.c \
 		$(EXEC_DIR)/11.1.1.pipes_handle.c \
-		$(EXEC_DIR)/11.1.2.pipes_handle_utils.c
+		$(EXEC_DIR)/11.1.2.pipes_handle_utils.c \
+		$(EXEC_DIR)/12.1.shell_lvl.c
 
 OBJ = $(SRC:.c=.o)
 
