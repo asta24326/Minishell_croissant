@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   5.1.1.exec_cmds.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:15:52 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/05 18:30:29 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 12:01:21 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	ft_exec_solo_cmd(t_shell *shell, t_cmd *cmd)
 		shell->exit_status = 1;
 		return ;
 	}
+	signal(SIGINT, ft_signal_handler_for_parent);
 	ft_setup_cmd_redirs(shell, cmd);
 	if (cmd->builtin == true)
 		ft_exec_builtin(shell, cmd, cmd->args[0]);
