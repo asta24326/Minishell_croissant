@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3.3.parse_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:49:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/06 15:59:36 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:30:55 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	get_arg_len(char *str)
 	{
 		if (is_quote(str[len]))
 			len += get_arg_len_in_quotes(str + len);
-		else
-			len ++;
+		len ++;
 	}
 	return (len);
 }

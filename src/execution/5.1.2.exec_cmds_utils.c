@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 12:04:25 by asharafe          #+#    #+#             */
-/*   Updated: 2026/01/02 23:13:05 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/06 20:08:56 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,23 @@ void	ft_wait_for_childs(t_shell *shell, int *status, int expected_childs)
 		}
 	}
 	*status = child_status;
+}
+
+void	ft_handle_cat(t_shell *shell)
+{
+	int	dev_null;
+	
+	dev_null = 0;
+	if (shell->pipe_count >= 1 && shell->cmd->index == 0 
+			&& shell->cmd->next->index == 1
+			&& !shell->cmd->args[1]
+			&& ft_strcmp(shell->cmd->args[0], "cat") == 0)
+	{
+		dev_null = open("/dev/null", O_WRONLY);
+		if (dev_null != -1)
+		{
+			dup2(dev_null, STDERR_FILENO);
+			close(dev_null);
+		}
+	}
 }

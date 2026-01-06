@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 16:15:52 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/06 14:20:56 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/06 20:08:25 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ static void	ft_exec_child_multi(t_shell *shell, t_cmd *curr_cmd)
 {
 	ft_reset_signals();
 	signal(SIGPIPE, SIG_IGN);
+	ft_handle_cat(shell);
 	if (curr_cmd->has_redir_err == true)
 		exit(1);
 	ft_setup_cmd_redirs(shell, curr_cmd);

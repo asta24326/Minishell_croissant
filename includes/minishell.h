@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/06 15:38:34 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/06 20:08:17 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ void	ft_exec_cmds(t_shell *shell);
 // 5.1.2.exec_cmds_utils.c
 void	ft_wait_for_childs(t_shell *shell,
 			int *status, int expected_childs);
+void	ft_handle_cat(t_shell *shell);
 
 // 5.2.1.exec_builtin.c
 int		ft_exec_builtin(t_shell *shell, t_cmd *cmd, char *cmd_name);
