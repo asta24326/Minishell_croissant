@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:13:31 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/05 12:42:00 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:54:00 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_minishell(t_shell *minishell)
 {
-	minishell->prompt = ft_strjoin(getenv("USER"), "@minicroissant: ");
+	minishell->prompt = ft_strjoin(getenv("USER"), "@croissant_minishell: ");
 	if (!minishell->prompt)
 		return (FAILURE);
 	minishell->pipe_count = 0;

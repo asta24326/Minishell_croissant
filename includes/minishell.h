@@ -7,6 +7,8 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
 /*   Updated: 2026/01/06 14:20:18 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/06 15:22:30 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 11:56:38 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +36,11 @@
 // for write, open, read, close, unlink
 # include <fcntl.h>
 
-// for error handling
-# include <errno.h> //needed?
-
 // for fork, stat, lstat, fstat, opendir
 # include <sys/types.h>
 
 // for wait, waitpid
-# include <sys/wait.h> //needed?
-
-// for wait3, wait4
-# include <sys/time.h> //needed?
-# include <sys/resource.h> //needed?
+# include <sys/wait.h>
 
 // for signal, sigaction, etc.
 # include <signal.h>
@@ -54,22 +49,10 @@
 # include <sys/stat.h>
 
 // for opendir, readdir, closedir
-# include <dirent.h> //needed?
+# include <dirent.h>
 
 // for strerror
-# include <string.h> //needed?
-
-// for ioctl
-# include <sys/ioctl.h> //needed?
-
-// for tcsetattr, tcgetattr
-# include <termios.h> //needed?
-
-// for tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-# include <curses.h> //needed?
-
-// for tputs
-# include <term.h> //needed?
+# include <string.h>
 
 // for boolean expressions
 # include <stdbool.h>
@@ -136,13 +119,8 @@ typedef struct s_shell
 
 /* FUNCTIONS */
 /* PARSING FOLDER */
-// 0.1.main.c
-int		main(int ac, char **av, char **env);
-
 // 0.2.minishell_initialization.c
 int		init_minishell(t_shell *minishell);
-void	ft_shell_loop(t_shell *minishell);
-void	ft_clean_after_cmd_exec(t_shell *minishell);
 
 // 0.3.signal_handling.c
 void	ft_signal_handler(int signum);
@@ -155,14 +133,14 @@ void	ft_reset_signals(void);
 void	end_minishell(t_shell *minishell);
 
 // 0.5.shell_loop.c
-void	ft_shell_loop(t_shell *minishell);
+void	shell_loop(t_shell *minishell);
 
 // 1.1.parsing.c
 int		parse(char *pipeline, t_shell *minishell);
 char	*blackout_quoted_content(char *str);
 
 // 1.2.syntax_check.c
-int		is_valid_syntax(char *copy);
+int		is_valid_syntax(char *copy, int pipe_count);
 int		are_valid_pipes(char *copy);
 int		are_valid_redirs(char *copy);
 int		are_closed_quotes(char *copy);
@@ -175,12 +153,13 @@ int		is_quote(char c);
 int		is_other(char c);
 
 // 1.4.prepare_parsing.c
-void	prepare_parsing(char *copy, t_shell *minishell);
 int		get_pipe_count(char *copy);
 
 // 2.1.parse_cmd_line.c
 int		parse_cmd_lines(char *copy, char *pline,
 			int cmd_count, t_shell *minishell);
+char	**split_pipeline(char *copy, char *pipeline, t_shell *minishell);
+int		process_cmd(t_shell *minishell, char *cmd_str);
 
 // 2.2.prepare_cmd_lst.c
 void	create_cmd_list(char **arr, int cmd_count, t_shell *minishell);
@@ -228,7 +207,6 @@ char	*get_delimiter(char *cmd_str);
 int		cleanup_quotes(char **arr);
 char	*get_clean_str(char *orig_str);
 int		get_strlen_clean(char *orig_str);
-char	*remove_quotes(char *str);
 
 //4.2.check_builtin_cmds.c
 int		is_builtin_cmd(t_cmd *cmd);
@@ -242,19 +220,12 @@ int		handle_infile(t_shell *shell, char *filename, t_cmd *cmd, int op_count);
 int		handle_out_redir(t_shell *shell, char *filename,
 			t_cmd *cmd, int op_count);
 
-//_print_parsing_results.c - only for testing, will go out
-void	print_list(t_cmd *cmd, int cmd_count);
-
 /* ==================== */
 
 /* EXECUTION FOLDER */
 
 // 5.1.1.exec_cmds.c
 void	ft_exec_cmds(t_shell *shell);
-// static int	ft_handle_cmds_redirs(t_shell *shell);
-// static void	ft_exec_solo_cmd(t_shell *shell, t_cmd *cmd);
-// static int	ft_exec_multi_cmds(t_shell *shell, t_cmd *cmd);
-// static int	ft_exec_child_multi(t_shell *shell, t_cmd *curr_cmd);
 
 // 5.1.2.exec_cmds_utils.c
 void	ft_wait_for_childs(t_shell *shell,
@@ -286,9 +257,6 @@ void	ft_free_arr_str(char **arr);
 
 // 5.5.1.redirs_setup.c
 void	ft_setup_cmd_redirs(t_shell *shell, t_cmd *cmd);
-// static void	ft_setup_out_fd(t_shell *shell, t_cmd *cmd, bool *flag);
-// static void	ft_setup_in_fd(t_shell *shell, t_cmd *cmd, bool *flag);
-// static void	ft_setup_hdoc_in_fd(t_shell *shell, t_cmd *cmd, bool *flag);
 void	ft_restore_orig_fds(t_shell *shell);
 
 // 5.5.2.redirs_setup_utils.c
@@ -297,18 +265,12 @@ t_hdoc	*ft_get_last_hdoc(t_hdoc *head);
 // 5.6.exec_multi_sys_cmd.c
 int		ft_exec_multi_sys_cmd(t_shell *shell, t_cmd *cmd);
 int		ft_isdir(char *path);
-//static void	ft_error(t_shell *shell, char *cmd, char *msg, int exit_code);
 
 // 6.1.1.cd.c
 int		ft_cd(t_shell *shell, t_cmd *cmd);
-// static int	ft_handle_cd_err(char *msg, char *path, int use_perror);
-// static int	ft_validate_and_get_target(t_cmd *cmd, char **target);
-// static char	*ft_get_target(t_cmd *cmd);
 
 // 6.1.2.cd_utils.c
 int		ft_set_cd_vars(t_shell *shell, char *key, char *value);
-// static char	*ft_strjoin_three(char *key, char *value);
-// static int	ft_create_cd_arg(t_shell *shell, char *new_var);
 
 // 6.2.echo.c
 int		ft_echo(t_cmd *cmd);
@@ -355,10 +317,6 @@ char	**ft_env_dup(char **env);
 // 9.1.1.heredoc_handle.c
 void	ft_process_all_heredocs(t_shell *shell);
 int		ft_handle_heredoc(t_shell *shell, t_hdoc *curr_hdoc);
-// static int	ft_heredoc_child_process(t_shell *shell, t_cmd *cmd);
-// static int	ft_heredoc_read_loop(t_shell *shell, t_cmd *cmd);
-// static void	ft_write_heredoc_line(t_shell *shell,
-//					t_redirs *rdrs, char *line);
 
 // 9.1.2.heredoc_handle_utils.c
 char	*ft_expand_heredoc_str(t_shell *shell, char *str);

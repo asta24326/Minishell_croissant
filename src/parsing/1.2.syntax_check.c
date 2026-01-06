@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:55:55 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/05 12:55:24 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:10:40 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,11 @@ int	are_closed_quotes(char *copy)
 	return (false);
 }
 
-int	is_valid_syntax(char *copy)
+int	is_valid_syntax(char *copy, int pipe_count)
 {
-	if (are_valid_pipes(copy) == false)
-		return (ft_syntax_err_print(" unexpected token '|'"), false);
+	if (pipe_count > 0)
+		if (are_valid_pipes(copy) == false)
+			return (ft_syntax_err_print(" unexpected token '|'"), false);
 	if (are_valid_redirs(copy) == false)
 		return (ft_syntax_err_print(" near unexpected token"), false);
 	if (are_closed_quotes(copy) == false)
