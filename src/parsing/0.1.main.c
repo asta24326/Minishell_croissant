@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 15:34:19 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/05 12:55:45 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:51:27 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av, char **env)
 		free(minishell);
 		return (FAILURE);
 	}
-	ft_shell_loop(minishell);
+	shell_loop(minishell);
 	end_minishell(minishell);
 	return (SUCCESS);
 }

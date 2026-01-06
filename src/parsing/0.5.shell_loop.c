@@ -6,13 +6,13 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/26 12:13:06 by asharafe          #+#    #+#             */
-/*   Updated: 2026/01/05 12:42:55 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:53:40 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_shell_loop(t_shell *minishell)
+void	shell_loop(t_shell *minishell)
 {
 	char	*input_str;
 

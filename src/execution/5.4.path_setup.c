@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   5.4.path_setup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:05:41 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/02 23:14:30 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/06 14:18:50 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// to find check the path and command existance and prepare path for execve
 char	*ft_getpath(char *cmd, char **env)
 {
 	char	**allpaths;

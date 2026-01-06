@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 17:29:02 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/05 19:37:47 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:57:13 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ int	parse(char *pipeline, t_shell *minishell)
 	copy = blackout_quoted_content(pipeline);
 	if (!copy)
 		return (ft_putstr_fd("blackout_quoted_content", 2), FAILURE);
-	if (is_valid_syntax(copy) == false)
+	minishell->pipe_count = get_pipe_count(copy);
+	if (is_valid_syntax(copy, minishell->pipe_count) == false)
 	{
 		minishell->exit_status = 2;
 		return (free(copy), FAILURE);
 	}
-	prepare_parsing(copy, minishell);
 	if (parse_cmd_lines(copy, pipeline, minishell->pipe_count + 1, minishell))
 	{
 		ft_cleanup_cmd_list(&minishell->cmd);

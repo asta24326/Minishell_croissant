@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 15:06:57 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/05 12:44:47 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:08:52 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,4 @@ int	get_pipe_count(char *copy)
 		if (copy[i] == '|')
 			count++;
 	return (count);
-}
-
-void	prepare_parsing(char *copy, t_shell *minishell)
-{
-	minishell->pipe_count = get_pipe_count(copy);
-	minishell->pipes = NULL;
-	minishell->cmd = NULL;
-	minishell->shell_pid = getpid();
 }

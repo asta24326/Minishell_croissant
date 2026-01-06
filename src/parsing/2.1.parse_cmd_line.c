@@ -6,66 +6,13 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 18:33:41 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/05 18:41:06 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 14:00:29 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	ft_process_cmd(t_shell *minishell, char *cmd_str);
-
-static char	**split_pipeline(char *copy, char *pipeline, t_shell *minishell)
-{
-	char	**arr_copy;
-	char	**arr_final;
-	int		i;
-	int		j;
-
-	arr_copy = ft_split(copy, '|');
-	if (!arr_copy)
-		return (NULL);
-	arr_final = ft_calloc(minishell->pipe_count + 2, sizeof(char *));
-	i = -1;
-	j = 0;
-	while (arr_copy[++i])
-	{
-		j = ft_strlen(arr_copy[i]);
-		arr_final[i] = ft_calloc(j + 1, sizeof(char));
-		ft_strlcat(arr_final[i], pipeline, j + 1);
-		pipeline += j + 1;
-	}
-	arr_final[i] = NULL;
-	return (ft_free_arr(arr_copy), arr_final);
-}
-
-// works
-// needed: error handling
-int	parse_cmd_lines(char *copy, char *pline, int cmd_count, t_shell *minishell)
-{
-	char	**arr;
-	t_cmd	*head;
-	int		i;
-
-	arr = split_pipeline(copy, pline, minishell);
-	if (!arr)
-		return (ft_putstr_fd("split failed\n", 2), FAILURE);
-	create_cmd_list(arr, cmd_count, minishell);
-	head = minishell->cmd;
-	i = -1;
-	while (++i < cmd_count)
-	{
-		if (ft_process_cmd(minishell, arr[i]) == FAILURE)
-		{
-			ft_putstr_fd("ft_process_cmd failed\n", 2);
-			return (ft_free_arr(arr), FAILURE);
-		}
-		minishell->cmd = minishell->cmd->next;
-	}
-	minishell->cmd = head;
-	return (ft_free_arr(arr), SUCCESS);
-}
-
-static int	ft_process_cmd(t_shell *minishell, char *cmd_str)
+int	process_cmd(t_shell *minishell, char *cmd_str)
 {
 	if (tokenize(cmd_str, minishell->cmd))
 	{
@@ -92,3 +39,54 @@ static int	ft_process_cmd(t_shell *minishell, char *cmd_str)
 	}
 	return (SUCCESS);
 }
+
+char	**split_pipeline(char *copy, char *pipeline, t_shell *minishell)
+{
+	char	**arr_copy;
+	char	**arr_final;
+	int		i;
+	int		j;
+
+	arr_copy = ft_split(copy, '|');
+	if (!arr_copy)
+		return (NULL);
+	arr_final = ft_calloc(minishell->pipe_count + 2, sizeof(char *));
+	i = -1;
+	j = 0;
+	while (arr_copy[++i])
+	{
+		j = ft_strlen(arr_copy[i]);
+		arr_final[i] = ft_calloc(j + 1, sizeof(char));
+		ft_strlcat(arr_final[i], pipeline, j + 1);
+		pipeline += j + 1;
+	}
+	arr_final[i] = NULL;
+	return (ft_free_arr(arr_copy), arr_final);
+}
+
+int	parse_cmd_lines(char *copy, char *pline, int cmd_count, t_shell *minishell)
+{
+	char	**arr;
+	t_cmd	*head;
+	int		i;
+
+	arr = split_pipeline(copy, pline, minishell);
+	if (!arr)
+		return (ft_putstr_fd("split failed\n", 2), FAILURE);
+	create_cmd_list(arr, cmd_count, minishell);
+	head = minishell->cmd;
+	i = -1;
+	while (++i < cmd_count)
+	{
+		if (process_cmd(minishell, arr[i]) == FAILURE)
+		{
+			ft_putstr_fd("ft_process_cmd failed\n", 2);
+			return (ft_free_arr(arr), FAILURE);
+		}
+		minishell->cmd = minishell->cmd->next;
+	}
+	minishell->cmd = head;
+	return (ft_free_arr(arr), SUCCESS);
+}
+
+
