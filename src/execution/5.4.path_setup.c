@@ -6,13 +6,12 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 23:05:41 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/02 23:14:30 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/06 14:20:33 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// to find check the path and command existance and prepare path for execve
 char	*ft_getpath(char *cmd, char **env)
 {
 	char	**allpaths;
@@ -22,7 +21,7 @@ char	*ft_getpath(char *cmd, char **env)
 
 	if (ft_strchr(cmd, '/'))
 	{
-		if (access(cmd, F_OK | X_OK) == 0)
+		if (access(cmd, F_OK) == 0 && access(cmd, X_OK) == 0)
 			return (ft_strdup(cmd));
 		return (NULL);
 	}

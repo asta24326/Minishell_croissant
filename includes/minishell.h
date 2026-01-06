@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/06 11:56:38 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/06 14:20:18 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,13 +267,17 @@ int		ft_error_and_exit(t_shell *shell, char *arg);
 // 5.2.2.redirs_setup_utils.c
 t_hdoc	*ft_get_last_hdoc(t_hdoc *head);
 
-// 5.3.exec_sys_cmd.c
+// 5.3.1.exec_sys_cmd.c
 int		ft_exec_sys_solo_cmd(t_shell *shell, t_cmd *cmd);
 //static void	ft_exec_child_solo_process(t_shell *shell,
 //					t_cmd *cmd, char *path);
-//static void	ft_handle_exec_error(char *cmd_name, char *path);
+int		ft_err(t_shell *shell, char *cmd);
+void	ft_err_dir(t_shell *shell, char *cmd, char *err, int code);
+void	ft_exec_err(char *cmd, char *path);
+
+// 5.3.2.exec_sys_cmd_utils.c
 bool	ft_is_cmd_is_dir(t_shell *shell, char *arg);
-void	ft_error_dir(t_shell *shell, char *cmd, char *error, int exit_code);
+void	ft_err_msg(t_shell *shell, char *cmd, char *msg, int code);
 
 // 5.4.path_setup.c
 char	*ft_getpath(char *cmd, char **env);
@@ -384,5 +388,9 @@ void	ft_close_unused_child_pipes(t_shell *shell, int child_index);
 
 // 11.1.2.pipes_handle_utils.c
 void	ft_adjust_pipes_for_skipped_cmds(t_shell *shell);
+
+// 12.1.shell_lvl.c
+void	ft_setup_shlvl(t_shell *shell);
+char	**ft_add_str_arr(char **arr, char *str);
 
 #endif
