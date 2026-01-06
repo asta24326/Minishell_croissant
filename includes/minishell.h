@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
 /*   Updated: 2026/01/06 15:22:30 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/06 11:56:38 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +124,7 @@ int		init_minishell(t_shell *minishell);
 // 0.3.signal_handling.c
 void	ft_signal_handler(int signum);
 void	ft_setup_signals(void);
+void	ft_signal_handler_for_parent(int signum);
 void	ft_handle_child_status(t_shell *shell, int status);
 void	ft_reset_signals(void);
 
