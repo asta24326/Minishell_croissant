@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 21:31:01 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/07 23:37:32 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/08 00:02:11 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,16 @@ static int	get_var_len_expanded(char *str)
 
 	len = 1;
 	printf("str passed: %s\n", str);
-	while (str[len] && !is_whitespace(str[len]) && str[len] != '$' && !is_quote(str[len]))
-		len++;
+	if (str[len] == '$')
+		return (1);
+	else 
+		while (str[len] && !is_whitespace(str[len]) && (str[len] != '$') && !is_quote(str[len]))
+			len++;
 	printf("var_len: %i\n", len - 1);
 	return (len - 1);
 }
 
-char	*get_expand_str(t_shell *shell, char *str, char *unexp_str)
+char	*get_expand_str(t_shell *shell, char *str, char *unexp_str, int flag)
 {
 	char	*result;
 	char	*expanded_var;
@@ -81,6 +84,8 @@ char	*get_expand_str(t_shell *shell, char *str, char *unexp_str)
 	if (unexp_str != NULL)
 	{
 		result = ft_strjoin(unexp_str, expanded_var);
+		if (flag == 1)
+			free (unexp_str);
 		if (!result)
 			return (ft_putstr_fd("strjoin failed", 2), NULL);
 	}
@@ -127,10 +132,11 @@ char	*ft_expand_dquotes_str(t_shell *shell, char *str)
 	{
 		if (str[i] == '$')
 		{
-			if (last_opt == 1)
-				free(temp);
 			len = get_var_len_expanded(&str[i]);
-			temp = get_expand_str(shell, &str[i], temp2);
+			if (last_opt == 1)
+				temp = get_expand_str(shell, &str[i], temp, 1);
+			else
+				temp = get_expand_str(shell, &str[i], temp2, 2);
 			i += len + 1;
 			free(temp2);
 			last_opt = 1;
