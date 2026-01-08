@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 22:27:14 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/08 13:18:38 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:20:20 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	ft_expand(t_shell *shell)
 			return (FAILURE);
 		if (ft_expand_args_list(shell, curr_cmd) == FAILURE)
 			return (FAILURE);
-		free(shell->expansion);
 		curr_cmd = curr_cmd->next;
 	}
 	return (SUCCESS);

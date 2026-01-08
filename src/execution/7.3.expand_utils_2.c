@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 00:50:52 by asharafe          #+#    #+#             */
-/*   Updated: 2026/01/08 00:54:04 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:26:49 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	handle_dollar_sign(t_shell *shell, t_exp *curr, char *str)
 	if (curr->last_opt == 1)
 		curr->temp = get_expand_str(shell, str, curr->temp, 1);
 	else
+	{
 		curr->temp = get_expand_str(shell, str, curr->temp2, 2);
-	free(curr->temp2);
+		free(curr->temp2);
+	}
 }
