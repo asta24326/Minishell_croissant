@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 17:29:02 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/08 00:40:27 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:18:43 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	parse(char *pipeline, t_shell *minishell)
 	if (!copy)
 		return (ft_putstr_fd("blackout_quoted_content", 2), FAILURE);
 	minishell->pipe_count = get_pipe_count(copy);
-	minishell->expansion = prepare_expasion();
 	if (is_valid_syntax(copy, minishell->pipe_count) == false)
 	{
 		minishell->exit_status = 2;

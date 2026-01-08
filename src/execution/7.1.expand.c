@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 22:27:14 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/08 00:32:28 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:18:38 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ int	ft_expand_redirs_list(t_shell *shell, t_cmd *cmd)
 		i = -1;
 		while (cmd->redirs->list[++i])
 		{
+			shell->expansion = prepare_expasion();
 			expanded = ft_expand_str(shell, cmd->redirs->list[i]);
 			if (!expanded)
-				return (FAILURE);
+				return (free(shell->expansion), FAILURE);
 			free(cmd->redirs->list[i]);
 			cmd->redirs->list[i] = expanded;
+			free(shell->expansion);
 		}
 	}
 	return (SUCCESS);
@@ -57,11 +59,13 @@ int	ft_expand_args_list(t_shell *shell, t_cmd *cmd)
 	i = -1;
 	while (cmd->args[++i])
 	{
+		shell->expansion = prepare_expasion();
 		expanded = ft_expand_str(shell, cmd->args[i]);
 		if (!expanded)
-			return (FAILURE);
+			return (free(shell->expansion), FAILURE);
 		free(cmd->args[i]);
 		cmd->args[i] = expanded;
+		free(shell->expansion);
 	}
 	return (SUCCESS);
 }
