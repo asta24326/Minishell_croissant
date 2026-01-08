@@ -3,14 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
-/*   Updated: 2026/01/08 00:53:24 by asharafe         ###   ########.fr       */
-/*   Updated: 2026/01/07 20:16:09 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:33:57 by asharafe         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
-
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -321,11 +318,15 @@ char	*get_unexpand_str(char *str, char *exp_str);
 char	*ft_expand_dquotes_str(t_shell *shell, char *str);
 char	*ft_patch_with_dquotes(char *str);
 
-// 7.2.3.expand_utils_2.c
+// 7.3.expand_utils_2.c
 size_t	ft_get_var_name_len(char *arg);
 bool	ft_is_valid_var_char(int c);
 int		get_var_len_expanded(char *str);
 void	handle_dollar_sign(t_shell *shell, t_exp *curr, char *str);
+
+// 7.4.expand_utils_3.c
+char	*ft_expand_simple_str(t_shell *shell, char *str);
+char	*return_and_free_temps(char *str);
 
 // 8.1.env_init.c
 char	**ft_env_dup(char **env);

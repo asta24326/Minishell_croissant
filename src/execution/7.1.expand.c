@@ -6,7 +6,7 @@
 /*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 22:27:14 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/08 14:58:51 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:29:29 by asharafe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int	ft_expand_args_list(t_shell *shell, t_cmd *cmd)
 		{
 			shell->expansion = prepare_expasion();
 			expanded = ft_expand_str(shell, cmd->args[i]);
+			free(cmd->args[i]);
 			if (!expanded)
 				return (free(shell->expansion), FAILURE);
-			free(cmd->args[i]);
 			cmd->args[i] = expanded;
 			free(shell->expansion);
 		}
@@ -82,8 +82,8 @@ char	*ft_expand_str(t_shell *shell, char *str)
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
-	if (str[0] == '$')
-		return (ft_expand_dollar_start(shell, str));
+	if (len > 1 && is_other(str[0]))
+		return (ft_expand_simple_str(shell, str));
 	if (len > 1 && str[0] == '\'' && str[len - 1] == '\'')
 		return (ft_strdup(str));
 	if (len > 1 && str[0] == '"' && str[len - 1] == '"')
