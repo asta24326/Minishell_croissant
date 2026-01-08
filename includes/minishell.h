@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asharafe <asharafe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:52 by kschmitt          #+#    #+#             */
 /*   Updated: 2026/01/08 00:53:24 by asharafe         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:16:09 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,7 +336,7 @@ int		ft_handle_heredoc(t_shell *shell, t_hdoc *curr_hdoc);
 
 // 9.1.2.heredoc_handle_utils.c
 char	*ft_expand_heredoc_str(t_shell *shell, char *str);
-
+char	*ft_get_delim(char *old_delim);
 // 10.1.1.cleanup_and_exit.c
 void	ft_cleanup_and_exit(t_shell *shell, int exit_code);
 void	ft_cleanup_shell(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: kschmitt <kschmitt@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 22:51:59 by aidarsharaf       #+#    #+#             */
-/*   Updated: 2026/01/05 18:32:00 by kschmitt         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:18:22 by kschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ static int	ft_heredoc_child_process(t_shell *shell, t_hdoc *curr_hdoc)
 static int	ft_heredoc_read_loop(t_shell *shell, t_hdoc *curr_hdoc)
 {
 	char	*line;
+	char	*delim;
 
+	delim = ft_get_delim(curr_hdoc->hdoc_delim);
 	while (true)
 	{
 		line = readline("> ");
@@ -80,7 +82,7 @@ static int	ft_heredoc_read_loop(t_shell *shell, t_hdoc *curr_hdoc)
 			ft_putstr_fd("heredoc delimeted by end-of-file\n", 2);
 			break ;
 		}
-		if (ft_strcmp(line, curr_hdoc->hdoc_delim) == 0)
+		if (ft_strcmp(line, delim) == 0)
 		{
 			free(line);
 			break ;
@@ -88,6 +90,7 @@ static int	ft_heredoc_read_loop(t_shell *shell, t_hdoc *curr_hdoc)
 		ft_write_heredoc_line(shell, curr_hdoc, line);
 		free(line);
 	}
+	free(delim);
 	close(curr_hdoc->hdoc_fd[1]);
 	return (SUCCESS);
 }
