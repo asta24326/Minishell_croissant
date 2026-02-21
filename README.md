@@ -1,4 +1,4 @@
-## Author
+## Authors
 
 This project was developed as part of the 42 school curriculum by the team of:
 
