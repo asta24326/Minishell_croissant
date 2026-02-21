@@ -1,3 +1,10 @@
+## Author
+
+This project was developed as part of the 42 school curriculum by the team of:
+
+Kristin Schmitt - [@kristin32schmitt](https://github.com/kristin32schmitt) and 
+Aidar Sharafeev - [@asta24326](https://github.com/asta24326)
+
 # Minishell
 
 A bash-like command-line interpreter written in C that replicates core shell functionality.
@@ -96,10 +103,3 @@ The project is designed to be memory-leak free. Use the provided valgrind target
 ```bash
 make valgrind
 ```
-
-## Author
-
-This project was developed as part of the 42 school curriculum by the team of:
-
-Kristin Schmitt - [@kristin32schmitt](https://github.com/kristin32schmitt) and 
-Aidar Sharafeev - [@asta24326](https://github.com/asta24326)
